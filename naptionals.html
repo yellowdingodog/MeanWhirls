@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mean Whirls — Naptionals 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Raleway:wght@300;400;500;600&family=Permanent+Marker&family=Lilita+One&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:#0d1b2a; --navy2:#1b2d3f; --steel:#2c4a6e; --sky:#4a90c4;
+      --gold:#d4a843; --cream:#f0f4f8; --ink:#1a2a3a; --muted:#5a7a9a;
+      --white:#ffffff; --blush:#e8f0f8; --shadow:rgba(13,27,42,0.2);
+      --accent:#5ba4d4; --warn:#e8b84b;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--cream);font-family:'Raleway',sans-serif;color:var(--ink);min-height:100vh;}
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:100;opacity:0.3;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");}
+
+    /* ── Hero ── */
+    .hero{
+      position:relative;overflow:hidden;border-bottom:none;
+      background:#b8cfe0;
+      padding:2rem 2rem 1.75rem;text-align:center;
+    }
+    .hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(255,255,255,0.25) 0%,transparent 70%);pointer-events:none;}
+    .hero-logo{display:inline-block;cursor:pointer;margin-bottom:0.25rem;
+      background:#1b2d3f;
+      border-radius:6px;padding:6px 12px;
+      box-shadow:0 4px 18px rgba(0,20,40,0.45);}
+    .hero-logo img{max-width:min(340px,60vw);height:auto;display:block;margin:0 auto;}
+    .hero-subtitle{font-family:'Permanent Marker',cursive;
+      font-size:clamp(0.92rem,2vw,1.2rem);font-weight:400;
+      color:#1b2d3f;margin-top:0.5rem;letter-spacing:0.06em;
+      display:block;text-align:center;}
+    .hero-subtitle span{
+      background:rgba(200,225,245,0.72);
+      display:inline-block;padding:0.25rem 1.25rem;border-radius:20px;
+      backdrop-filter:blur(2px);border:1.5px solid #2c4a6e;}
+    .hero-eyebrow{font-size:0.78rem;font-weight:800;letter-spacing:0.3em;text-transform:uppercase;
+      color:#0d1b2a;margin-bottom:0.5rem;
+      display:block;text-align:center;}
+    .hero-eyebrow span{
+      background:rgba(200,225,245,0.72);
+      display:inline-block;padding:0.25rem 1.1rem;border-radius:20px;
+      backdrop-filter:blur(2px);border:1.5px solid #2c4a6e;}
+    .hero-zzz{font-size:clamp(1.5rem,4vw,2.5rem);letter-spacing:0.2em;color:#2c4a6e;margin-bottom:0.5rem;
+      animation:zzz 3s ease-in-out infinite;position:relative;z-index:1;
+      text-shadow:0 1px 3px rgba(255,255,255,0.5);}
+    .hero-title-wrap{display:inline-block;cursor:pointer;margin:0.25rem 0;
+      background:#0d1b2a;
+      border-radius:6px;padding:6px 20px 10px;
+      box-shadow:0 4px 18px rgba(0,20,40,0.5);}
+    .hero-title{font-family:'Lilita One',cursive;font-size:clamp(3rem,10vw,6rem);color:#fff;line-height:1;text-shadow:0 0 40px rgba(74,144,196,0.6),2px 4px 8px rgba(0,0,0,0.4);position:relative;z-index:1;letter-spacing:0.05em;display:block;}
+    .hero-title span{color:#5ba4d4;}
+    @keyframes zzz{0%,100%{opacity:0.4;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}}
+    .hero-divider{display:none;}
+    .hero-divider::before,.hero-divider::after{content:'';}
+
+    /* ── Nav ── */
+    .nav{display:flex;justify-content:center;flex-wrap:wrap;background:var(--navy);border-top:3px solid var(--steel);border-bottom:3px solid var(--steel);}
+    .nav button{background:none;border:none;padding:0.85rem 1.25rem;font-family:'Raleway',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.6);cursor:pointer;transition:all 0.2s;border-bottom:3px solid transparent;position:relative;top:2px;}
+    .nav button:hover{color:#fff;}
+    .nav button.active{color:#fff;border-bottom-color:var(--gold);}
+
+    /* ── Main ── */
+    .main{max-width:1100px;margin:0 auto;padding:3rem 1.5rem;}
+    .tab-panel{display:none;} .tab-panel.active{display:block;}
+    .section-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;color:#1b2d3f;margin-bottom:0.3rem;}
+    .section-header-box{
+      background:rgba(180,210,235,0.38);
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      border:1.5px solid rgba(44,74,110,0.25);
+      border-radius:4px;
+      padding:0.85rem 1.25rem 0.75rem;
+      margin-bottom:1.5rem;
+      position:relative;
+    }
+    .section-header-box::before,.section-header-box::after{
+      content:'';position:absolute;left:1.25rem;right:1.25rem;height:2px;
+      background:linear-gradient(90deg,transparent,#2c4a6e,transparent);
+    }
+    .section-header-box::before{top:0;}
+    .section-header-box::after{bottom:0;}
+    .section-sub{font-size:0.8rem;color:var(--muted);letter-spacing:0.05em;margin-bottom:1.25rem;}
+
+    /* Filter */
+    .filter-bar{display:flex;gap:0.75rem;margin-bottom:1.75rem;align-items:center;flex-wrap:wrap;}
+    .filter-select{border:1.5px solid rgba(44,74,110,0.3);border-radius:20px;padding:0.35rem 1rem;font-family:'Raleway',sans-serif;font-size:0.78rem;font-weight:600;color:#1b2d3f;background:rgba(180,210,235,0.35);outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;padding-right:2rem;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%232c4a6e'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.75rem center;}
+    .filter-clear{font-size:0.72rem;color:var(--muted);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'Raleway',sans-serif;padding:0;}
+    .filter-tag{display:none;}
+
+    /* Grid */
+    .entries-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;}
+    .entry-card{background:var(--white);border:1.5px solid rgba(44,74,110,0.12);border-radius:2px;overflow:visible;box-shadow:4px 6px 24px var(--shadow);transition:transform 0.25s cubic-bezier(.34,1.56,.64,1),box-shadow 0.25s;animation:fadeUp 0.5s ease both;position:relative;cursor:pointer;}
+    .entry-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--sky),var(--gold),var(--sky));opacity:0;transition:opacity 0.2s;z-index:1;}
+    .entry-card:hover{transform:translateY(-4px) rotate(0.3deg);box-shadow:8px 16px 40px var(--shadow);}
+    .entry-card:hover::before{opacity:1;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+    .entry-img-wrap{position:relative;width:100%;border-bottom:1.5px solid rgba(44,74,110,0.1);background:linear-gradient(135deg,#060d14,#1b2d3f);display:flex;align-items:center;justify-content:center;min-height:180px;overflow:hidden;border-radius:1px 1px 0 0;}
+    .entry-img{width:100%;max-height:420px;display:block;object-fit:contain;}
+    .entry-img-num{position:absolute;top:8px;left:8px;z-index:2;background:rgba(0,0,0,0.55);color:#fff;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;padding:0.2rem 0.55rem;border-radius:20px;}
+    .entry-img-placeholder{width:100%;min-height:180px;aspect-ratio:4/3;background:linear-gradient(135deg,var(--blush),#d0e4f4);display:flex;align-items:center;justify-content:center;font-size:3.5rem;border-bottom:1.5px solid rgba(44,74,110,0.1);position:relative;}
+
+    .entry-body{padding:1.1rem 1.25rem 0.6rem;}
+    .entry-subject{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--steel);margin-bottom:0.45rem;}
+    .entry-text{font-size:0.85rem;line-height:1.6;color:var(--ink);font-style:italic;quotes:'\201C' '\201D';display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+    .entry-text::before{content:open-quote;color:var(--sky);font-size:1.3em;line-height:0;vertical-align:-0.4em;margin-right:2px;}
+    .entry-text::after{content:close-quote;color:var(--sky);font-size:1.3em;line-height:0;vertical-align:-0.4em;margin-left:2px;}
+    .entry-text:empty::before,.entry-text:empty::after{content:none;}
+    .entry-hashtags{display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.6rem;}
+    .entry-hashtag{font-size:0.63rem;font-weight:600;color:var(--steel);background:var(--blush);padding:0.12rem 0.45rem;border-radius:20px;cursor:pointer;transition:all 0.2s;}
+    .entry-hashtag:hover{background:var(--steel);color:#fff;}
+
+    .entry-footer{display:flex;align-items:center;justify-content:space-between;padding:0.5rem 1.25rem 0.85rem;flex-wrap:wrap;gap:0.4rem;}
+    .entry-meta{display:flex;align-items:center;gap:0.4rem;}
+    .entry-author{font-size:0.68rem;color:var(--muted);}
+    .entry-author strong{color:var(--sky);}
+    .badge-mw{display:inline-flex;align-items:center;gap:0.3rem;background:linear-gradient(135deg,var(--navy),var(--steel));color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.18rem 0.5rem;border-radius:20px;}
+    .badge-mw img{width:12px;height:12px;object-fit:contain;filter:brightness(0) invert(1);}
+
+    .card-defense-strip{font-size:0.72rem;color:var(--muted);font-style:italic;padding:0.5rem 1.25rem 0;border-top:1px solid rgba(44,74,110,0.07);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .card-comment-count{font-size:0.68rem;color:var(--muted);padding:0.35rem 1.25rem 0.65rem;display:flex;align-items:center;gap:0.3rem;}
+    .card-comment-count span{color:var(--steel);font-weight:700;}
+
+     /* Detail sheet overlay */
+     #detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:200;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+     #detail-overlay.open{opacity:1;pointer-events:all;}
+     #detail-page{position:fixed;bottom:0;left:0;right:0;z-index:201;background:var(--white);border-radius:18px 18px 0 0;max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);box-shadow:0 -4px 40px rgba(0,0,0,0.22);}
+     #detail-page.open{transform:translateY(0);}
+     .detail-sheet-handle{width:40px;height:4px;background:rgba(0,0,0,0.15);border-radius:2px;margin:10px auto 0;}
+     .detail-sheet-header{display:flex;align-items:center;justify-content:space-between;padding:0.65rem 1rem 0.5rem;position:sticky;top:0;background:var(--white);z-index:2;border-bottom:1px solid rgba(44,74,110,0.1);}
+     .detail-close-btn{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;border:1.5px solid rgba(44,74,110,0.2);border-radius:2px;padding:0.35rem 0.85rem;background:none;transition:all 0.2s;}
+     .detail-close-btn:hover{border-color:var(--sky);color:var(--steel);background:var(--blush);}
+     .detail-sheet-body{padding:1rem 1rem 2.5rem;display:flex;flex-direction:column;gap:1rem;}
+     .detail-subject{font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:900;color:var(--steel);line-height:1.15;margin:0;}
+     .detail-text{font-size:0.97rem;line-height:1.75;color:var(--ink);font-style:italic;quotes:'\201C' '\201D';margin:0;}
+     .detail-text::before{content:open-quote;color:var(--sky);font-size:1.4em;line-height:0;vertical-align:-0.4em;margin-right:3px;}
+     .detail-text::after{content:close-quote;color:var(--sky);font-size:1.4em;line-height:0;vertical-align:-0.4em;margin-left:3px;}
+     .detail-text:empty{display:none;}
+     .detail-img-panel{background:linear-gradient(135deg,#060d14,#1b2d3f);border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;max-height:55vh;position:relative;}
+     .detail-img-panel:empty{display:none;}
+     .detail-img{max-width:100%;max-height:55vh;object-fit:contain;display:block;}
+     .detail-img-num{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.6);color:#fff;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:20px;}
+     .detail-placeholder{width:100%;min-height:180px;display:flex;align-items:center;justify-content:center;font-size:4rem;}
+     .detail-meta-row{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;font-size:0.8rem;}
+     .detail-hashtags{display:flex;flex-wrap:wrap;gap:0.35rem;}
+     .detail-hashtag{font-size:0.68rem;font-weight:600;color:var(--steel);background:var(--blush);padding:0.18rem 0.55rem;border-radius:20px;cursor:pointer;transition:all 0.2s;}
+     .detail-hashtag:hover{background:var(--steel);color:#fff;}
+     .detail-edit-btn{background:none;border:1.5px solid rgba(44,74,110,0.25);border-radius:2px;padding:0.3rem 0.7rem;font-family:'Raleway',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all 0.2s;}
+     .detail-edit-btn:hover{border-color:var(--sky);color:var(--steel);background:var(--blush);}
+     .detail-actions{display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;position:relative;}
+     .detail-share-btn{display:inline-flex;align-items:center;gap:0.35rem;padding:0.55rem 1.1rem;background:var(--steel);color:#fff;border:none;border-radius:3px;font-family:'Raleway',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+     .detail-share-btn:hover{background:var(--sky);}
+     .detail-sec-btn{display:inline-flex;align-items:center;gap:0.3rem;padding:0.4rem 0.85rem;background:none;color:var(--muted);border:1.5px solid rgba(44,74,110,0.2);border-radius:3px;font-family:'Raleway',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all 0.2s;white-space:nowrap;}
+     .detail-sec-btn:hover{border-color:var(--sky);color:var(--steel);background:var(--blush);}
+     .detail-sec-btn.danger{border-color:rgba(198,40,40,0.25);color:#c62828;}
+     .detail-sec-btn.danger:hover{background:#fde8e8;border-color:#c62828;}
+     .detail-share-popup{position:absolute;top:calc(100% + 6px);left:0;background:var(--white);border:1.5px solid rgba(44,74,110,0.18);border-radius:6px;box-shadow:0 6px 24px rgba(0,0,0,0.12);z-index:10;min-width:200px;padding:0.5rem;}
+     .detail-share-popup-row{display:flex;flex-direction:column;gap:0.3rem;}
+     .detail-share-opt{display:flex;align-items:center;gap:0.5rem;padding:0.55rem 0.85rem;border-radius:4px;font-family:'Raleway',sans-serif;font-size:0.72rem;font-weight:600;color:var(--ink);text-decoration:none;cursor:pointer;border:none;background:none;transition:background 0.15s;text-align:left;}
+     .detail-share-opt:hover{background:var(--blush);}
+     #detail-action-btns{display:contents;}
+     .contact-btn{background:none;border:1.5px solid rgba(44,74,110,0.25);border-radius:2px;padding:0.35rem 0.85rem;font-family:'Raleway',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all 0.2s;}
+     .contact-btn:hover{border-color:var(--gold);color:#7a5c00;background:rgba(212,168,67,0.06);}
+     /* Sleeper's Defense */
+     .defense-section{background:linear-gradient(135deg,#060d14,#0d1b2a);border-radius:2px;padding:1.25rem 1.5rem;margin-top:1.25rem;}
+     .defense-section-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:var(--gold);margin-bottom:0.85rem;letter-spacing:0.04em;}
+     .defense-text{font-size:0.92rem;line-height:1.7;color:rgba(255,255,255,0.85);font-style:italic;quotes:'\201C' '\201D';}
+
+
+    .defense-text::before{content:open-quote;color:var(--sky);font-size:1.3em;line-height:0;vertical-align:-0.4em;margin-right:2px;}
+    .defense-text::after{content:close-quote;color:var(--sky);font-size:1.3em;line-height:0;vertical-align:-0.4em;margin-left:2px;}
+    .defense-meta{font-size:0.68rem;color:rgba(255,255,255,0.4);margin-top:0.6rem;display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;}
+    .defense-own-btn{background:none;border:1px solid rgba(255,255,255,0.2);border-radius:2px;padding:0.18rem 0.55rem;font-size:0.62rem;color:rgba(255,255,255,0.5);cursor:pointer;font-family:'Raleway',sans-serif;letter-spacing:0.06em;text-transform:uppercase;transition:all 0.2s;}
+    .defense-own-btn:hover{border-color:rgba(255,255,255,0.5);color:rgba(255,255,255,0.8);}
+    .defense-pending{font-size:0.75rem;color:rgba(255,200,0,0.7);font-style:italic;padding:0.6rem 0;}
+    .defense-add-btn{background:none;border:1.5px dashed rgba(255,255,255,0.2);border-radius:2px;padding:0.55rem 1.25rem;font-family:'Raleway',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);cursor:pointer;width:100%;transition:all 0.2s;margin-top:0.25rem;}
+    .defense-add-btn:hover{border-color:var(--sky);color:var(--sky);}
+    .defense-form{margin-top:0.85rem;}
+    .defense-input{width:100%;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);border-radius:2px;padding:0.6rem 0.85rem;font-family:'Raleway',sans-serif;font-size:0.88rem;color:#fff;outline:none;resize:vertical;min-height:80px;}
+    .defense-input:focus{border-color:var(--sky);}
+    .defense-submit-btn{margin-top:0.6rem;background:var(--steel);border:none;border-radius:2px;padding:0.55rem 1.25rem;color:#fff;font-family:'Raleway',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+    .defense-submit-btn:hover{background:var(--sky);}
+    .defense-submit-btn:disabled{opacity:0.6;cursor:not-allowed;}
+    .defense-msg{font-size:0.78rem;margin-top:0.5rem;padding:0.5rem 0.75rem;border-radius:2px;}
+    .defense-msg.ok{background:rgba(76,175,80,0.15);color:#a5d6a7;}
+    .defense-msg.err{background:rgba(74,144,196,0.15);color:var(--sky);}
+
+    /* Comments */
+    .comments-section{margin-top:1.5rem;}
+    .comments-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--steel);margin-bottom:1rem;}
+    .comment-item{background:var(--white);border:1.5px solid rgba(44,74,110,0.1);border-radius:2px;padding:0.85rem 1rem;margin-bottom:0.75rem;animation:fadeUp 0.3s ease;}
+    .comment-author{font-size:0.72rem;font-weight:700;color:var(--steel);margin-bottom:0.3rem;}
+    .comment-text{font-size:0.85rem;line-height:1.6;color:var(--ink);}
+    .comment-meta{display:flex;align-items:center;gap:0.6rem;margin-top:0.5rem;flex-wrap:wrap;}
+    .comment-date{font-size:0.65rem;color:var(--muted);}
+    .comment-own-btn{background:none;border:1px solid rgba(44,74,110,0.2);border-radius:2px;padding:0.15rem 0.5rem;font-size:0.6rem;color:var(--muted);cursor:pointer;font-family:'Raleway',sans-serif;letter-spacing:0.06em;text-transform:uppercase;transition:all 0.2s;}
+    .comment-own-btn:hover{border-color:var(--sky);color:var(--steel);}
+    .add-comment-form{background:var(--blush);border:1.5px solid rgba(44,74,110,0.12);border-radius:2px;padding:1rem;margin-top:0.5rem;}
+    .add-comment-title{font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--steel);margin-bottom:0.75rem;}
+    .comment-input{width:100%;border:1.5px solid rgba(44,74,110,0.2);border-radius:2px;padding:0.6rem 0.85rem;font-family:'Raleway',sans-serif;font-size:0.88rem;color:var(--ink);background:var(--white);outline:none;}
+    .comment-input:focus{border-color:var(--sky);}
+    .comment-textarea{width:100%;border:1.5px solid rgba(44,74,110,0.2);border-radius:2px;padding:0.6rem 0.85rem;font-family:'Raleway',sans-serif;font-size:0.88rem;color:var(--ink);background:var(--white);outline:none;resize:vertical;min-height:70px;margin-top:0.5rem;}
+    .comment-textarea:focus{border-color:var(--sky);}
+    .comment-submit-btn{margin-top:0.6rem;background:var(--steel);border:none;border-radius:2px;padding:0.55rem 1.25rem;color:#fff;font-family:'Raleway',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+    .comment-submit-btn:hover{background:var(--sky);}
+    .comment-submit-btn:disabled{opacity:0.6;cursor:not-allowed;}
+    .comment-msg{font-size:0.78rem;margin-top:0.5rem;padding:0.5rem 0.75rem;border-radius:2px;}
+    .comment-msg.ok{background:#e8f5e9;border-left:3px solid #4caf50;color:#1b5e20;}
+    .comment-msg.err{background:var(--blush);border-left:3px solid var(--sky);color:var(--steel);}
+
+    /* Hottest Naps */
+    #tab-hot .section-title{color:var(--navy);}
+    .hot-controls{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;}
+    .hot-controls label{font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+    .hot-controls select{border:1.5px solid rgba(44,74,110,0.2);border-radius:2px;padding:0.5rem 0.85rem;font-family:'Raleway',sans-serif;font-size:0.85rem;color:var(--ink);background:var(--white);outline:none;cursor:pointer;}
+    .hot-list{display:flex;flex-direction:column;gap:1.25rem;}
+    .hot-card{display:grid;grid-template-columns:auto 80px 1fr;gap:1.25rem;align-items:center;background:var(--white);border:1.5px solid rgba(44,74,110,0.12);border-radius:2px;padding:1rem 1.25rem;box-shadow:4px 6px 20px var(--shadow);cursor:pointer;transition:all 0.2s;animation:fadeUp 0.4s ease both;}
+    .hot-card:hover{transform:translateX(4px);box-shadow:6px 10px 28px var(--shadow);}
+    .hot-rank{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold);min-width:2.5rem;text-align:center;}
+    .hot-img{width:80px;height:60px;object-fit:contain;border-radius:2px;background:linear-gradient(135deg,var(--blush),#d0e4f4);display:flex;align-items:center;justify-content:center;font-size:2rem;overflow:hidden;flex-shrink:0;}
+    .hot-img img{width:100%;height:100%;object-fit:contain;}
+    .hot-body{flex:1;min-width:0;}
+    .hot-subject{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--steel);margin-bottom:0.2rem;}
+    .hot-text{font-size:0.82rem;color:var(--muted);font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .hot-comments{font-size:0.72rem;color:var(--muted);margin-top:0.2rem;}
+    .hot-comments span{color:var(--steel);font-weight:700;}
+
+    /* Submit form */
+    .form-card{background:var(--white);border:1.5px solid rgba(44,74,110,0.14);border-radius:2px;box-shadow:4px 6px 24px var(--shadow);padding:2.5rem;max-width:600px;margin:0 auto;}
+    .form-note{background:var(--blush);border-left:3px solid var(--sky);padding:0.85rem 1rem;font-size:0.8rem;color:var(--muted);margin-bottom:1.75rem;line-height:1.6;}
+    .form-group{margin-bottom:1.25rem;}
+    .form-label{display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--steel);margin-bottom:0.4rem;}
+    .form-label-note{font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0;}
+    .form-input,.form-textarea{width:100%;border:1.5px solid rgba(44,74,110,0.2);border-radius:2px;padding:0.7rem 0.9rem;font-family:'Raleway',sans-serif;font-size:0.9rem;color:var(--ink);background:var(--cream);transition:border-color 0.2s,box-shadow 0.2s;outline:none;}
+    .form-input:focus,.form-textarea:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(74,144,196,0.12);}
+    .form-textarea{min-height:110px;resize:vertical;}
+    .form-check{display:flex;align-items:center;gap:0.6rem;margin-top:0.6rem;cursor:pointer;}
+    .form-check input[type=checkbox]{width:16px;height:16px;accent-color:var(--steel);cursor:pointer;}
+    .form-check-label{font-size:0.82rem;color:var(--muted);cursor:pointer;}
+    .upload-zone{border:2px dashed rgba(44,74,110,0.3);border-radius:2px;padding:1.5rem;text-align:center;cursor:pointer;background:var(--blush);transition:all 0.2s;position:relative;overflow:hidden;}
+    .upload-zone:hover{border-color:var(--sky);background:#d0e4f4;}
+    .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .upload-zone-icon{font-size:1.75rem;margin-bottom:0.4rem;}
+    .upload-zone-text{font-size:0.8rem;color:var(--muted);}
+    .upload-preview{width:100%;max-height:180px;object-fit:contain;border-radius:2px;display:none;margin-top:0.6rem;border:1.5px solid rgba(44,74,110,0.15);}
+    .current-img{width:100%;max-height:140px;object-fit:contain;border-radius:2px;display:block;margin-bottom:0.6rem;border:1.5px solid rgba(44,74,110,0.15);opacity:0.75;}
+
+    .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.85rem 2rem;font-family:'Raleway',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:all 0.2s;}
+    .btn-primary{background:linear-gradient(135deg,var(--navy),var(--steel));color:#fff;box-shadow:0 4px 16px rgba(13,27,42,0.35);}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(13,27,42,0.45);}
+    .btn-primary:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+    .alert{padding:1rem 1.25rem;border-radius:2px;font-size:0.85rem;margin-top:1rem;}
+    .alert-success{background:#e8f5e9;border-left:3px solid #4caf50;color:#1b5e20;}
+    .alert-error{background:var(--blush);border-left:3px solid var(--sky);color:var(--steel);}
+
+    /* Modal */
+    .modal-overlay{display:none;position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:1.5rem;}
+    .modal-overlay.open{display:flex;animation:fadeIn 0.2s ease;}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .modal{background:var(--white);border-radius:2px;max-width:580px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 16px 64px rgba(0,0,0,0.4);}
+    .modal-header{background:linear-gradient(135deg,#060d14,#1b2d3f);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:1;}
+    .modal-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:#fff;}
+    .modal-close{background:none;border:none;color:rgba(255,255,255,0.7);font-size:1.5rem;cursor:pointer;}
+    .modal-close:hover{color:#fff;}
+    .modal-body{padding:1.5rem;}
+    .modal-note{background:var(--blush);border-left:3px solid var(--sky);padding:0.75rem 1rem;font-size:0.78rem;color:var(--muted);margin-bottom:1.25rem;line-height:1.6;}
+
+    /* Empty / loading */
+    .empty{text-align:center;padding:5rem 2rem;color:var(--muted);}
+    .empty-icon{font-size:3.5rem;margin-bottom:1rem;}
+    .empty h3{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:0.5rem;color:var(--steel);}
+    .loading-wrap{text-align:center;padding:4rem;}
+    .spinner{display:inline-block;width:32px;height:32px;border:3px solid rgba(44,74,110,0.2);border-top-color:var(--sky);border-radius:50%;animation:spin 0.7s linear infinite;}
+    .spinner-sm{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(4rem);background:var(--navy);color:#fff;padding:0.65rem 1.5rem;border-radius:20px;font-size:0.8rem;font-weight:600;z-index:9999;transition:transform 0.3s ease,opacity 0.3s ease;opacity:0;pointer-events:none;}
+    .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+    .footer{text-align:center;padding:2rem;font-size:0.72rem;color:var(--muted);border-top:1px solid rgba(44,74,110,0.1);margin-top:4rem;letter-spacing:0.08em;}
+    .footer strong{color:var(--sky);}
+    .footer a{color:var(--muted);text-decoration:none;}
+    .footer a:hover{color:var(--steel);}
+
+    @media(max-width:600px){
+      .main{padding:2rem 1rem;} .form-card{padding:1.5rem;}
+      .nav button{padding:0.75rem 0.85rem;font-size:0.62rem;}
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div id="auth-top-bar" style="background:#0d1b2a;display:flex;justify-content:flex-end;align-items:center;padding:0.35rem 1rem;gap:0.5rem;border-bottom:1px solid rgba(255,255,255,0.08);min-height:34px;">
+    <div id="auth-widget" style="display:flex;align-items:center;gap:0.5rem;"></div>
+  </div>
+
+  <header class="hero">
+    <p class="hero-eyebrow"><span>2026 Whirlyball Nationals</span></p>
+    <div class="hero-zzz">z z z</div>
+    <div class="hero-title-wrap" onclick="goHome()"><h1 class="hero-title">Nap<span>tionals</span></h1></div>
+    <p class="hero-subtitle"><span>If you snooze, you lose — your dignity.</span></p>
+  </header>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-btn" style="text-decoration:none;display:inline-flex;align-items:center;color:rgba(255,255,255,0.7);">📖 BURN BOOK</a>
+    <button class="nav-btn active" data-tab="book">😴 The Nap Wall</button>
+    <button class="nav-btn" data-tab="hot">🏆 Hall of Shame</button>
+    <button class="nav-btn" data-tab="submit">📸 Caught One!</button>
+  </nav>
+
+  <main class="main">
+
+    <!-- NAP WALL -->
+    <div id="tab-book" class="tab-panel active">
+      <div id="book-grid-view">
+        <div class="section-header-box">
+          <h2 class="section-title">The Nap Wall</h2>
+          <p class="section-sub">Caught sleeping at Nationals. These heroes deserve recognition.</p>
+        </div>
+        <div id="filter-bar" class="filter-bar" style="display:none">
+          <span style="font-size:0.72rem;font-weight:600;color:#1b2d3f;letter-spacing:0.08em;text-transform:uppercase">Filter by tag:</span>
+          <select class="filter-select" id="filter-select" onchange="setFilterFromSelect(this.value)">
+            <option value="">— All entries —</option>
+          </select>
+          <button class="filter-clear" id="filter-clear" style="display:none" onclick="clearFilter()">✕ clear</button>
+        </div>
+        <div id="entries-container"><div class="loading-wrap"><div class="spinner"></div></div></div>
+      </div>
+
+      <!-- Detail view -->
+      <div id="detail-overlay" onclick="closeDetail()"></div>
+      <div id="detail-page">
+        <div class="detail-sheet-handle"></div>
+        <div class="detail-sheet-header">
+          <button class="detail-close-btn" onclick="closeDetail()">← Back to Nap Wall</button>
+          <span id="detail-header-title" style="font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:var(--steel);max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:0;transition:opacity 0.2s"></span>
+        </div>
+        <div class="detail-sheet-body">
+
+          <!-- 1. Title + burn -->
+          <div class="detail-subject" id="detail-subject"></div>
+          <p class="detail-text" id="detail-text"></p>
+
+          <!-- 2. Photo -->
+          <div class="detail-img-panel" id="detail-img-panel">
+            <div class="detail-placeholder" id="detail-placeholder" style="display:none"></div>
+            <img id="detail-img" class="detail-img" src="" alt="" style="display:none" />
+            <div class="detail-img-num" id="detail-img-num"></div>
+          </div>
+
+          <!-- 3. Author + hashtags -->
+          <div class="detail-meta-row" id="detail-meta-row"></div>
+          <div class="detail-hashtags" id="detail-hashtags"></div>
+
+          <!-- 4. Actions -->
+          <div class="detail-actions">
+            <button class="detail-share-btn" id="detail-share-btn" onclick="toggleSharePopup()">↗ Share</button>
+            <div class="detail-share-popup" id="detail-share-popup" style="display:none">
+              <div class="detail-share-popup-row">
+                <button class="detail-share-opt" onclick="copyShareUrl()">🔗 Copy Link</button>
+                <a class="detail-share-opt" id="share-fb" href="" target="_blank">📘 Facebook</a>
+                <a class="detail-share-opt" id="share-tw" href="" target="_blank">🐦 Twitter/X</a>
+              </div>
+            </div>
+            <a class="detail-sec-btn" id="detail-download" href="" download target="_blank" style="display:none">⬇ Download</a>
+            <div id="detail-action-btns"></div>
+          </div>
+          <input id="share-url" style="position:absolute;opacity:0;pointer-events:none" readonly />
+
+          <!-- 5. Defense -->
+          <div id="detail-defense"></div>
+
+          <!-- 6. Comments -->
+          <div id="detail-comments" class="comments-section"></div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- HALL OF SHAME (most commented) -->
+    <div id="tab-hot" class="tab-panel">
+      <h2 class="section-title">🏆 Hall of Shame</h2>
+      <p class="section-sub">The most talked-about nappers at Nationals. Ranked by community engagement.</p>
+      <div class="hot-controls">
+        <label for="hot-count">Show top</label>
+        <select id="hot-count" onchange="loadHallOfShame()">
+          <option value="10" selected>10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="0">All</option>
+        </select>
+        <label>nappers</label>
+      </div>
+      <div id="hot-container"><div class="loading-wrap"><div class="spinner"></div></div></div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div id="tab-submit" class="tab-panel">
+      <h2 class="section-title">📸 Caught One!</h2>
+      <p class="section-sub">Spotted a snoozer? Document it for posterity.</p>
+      <div class="form-card">
+        <div class="form-note">📌 Submissions are reviewed before going live. Photo evidence strongly encouraged. They can't deny it if there's proof.</div>
+        <div class="form-group">
+          <label class="form-label">Who Got Caught? *</label>
+          <input class="form-input" id="f-subject" placeholder="Name of the sleeper" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">The Scene <span class="form-label-note">(optional — describe the situation)</span></label>
+          <textarea class="form-textarea" id="f-text" placeholder="Where, when, how deeply asleep..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Posting As</label>
+          <div id="f-author-options" style="display:flex;flex-direction:column;gap:0.5rem;margin-top:0.25rem;"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hashtags <span class="form-label-note">(optional — e.g. #deepnap #snoring)</span></label>
+          <input class="form-input" id="f-hashtags" placeholder="#deepnap #snoring #legendary" />
+        </div>
+        <div class="form-group" id="f-quality-group">
+            <label class="form-label">Image Quality</label>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.25rem;">
+              <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;"><input type="radio" name="f-quality" value="H" style="accent-color:var(--sky)" /><strong>High</strong> <span style="color:var(--muted);font-size:0.78rem">1920px</span></label>
+              <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;"><input type="radio" name="f-quality" value="M" checked style="accent-color:var(--sky)" /><strong>Medium</strong> <span style="color:var(--muted);font-size:0.78rem">1200px</span></label>
+              <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;"><input type="radio" name="f-quality" value="L" style="accent-color:var(--sky)" /><strong>Low</strong> <span style="color:var(--muted);font-size:0.78rem">900px</span></label>
+            </div>
+          </div>
+        <div class="form-group">
+          <label class="form-label">Photo Evidence <span class="form-label-note">(optional but highly encouraged)</span></label>
+          <div class="upload-zone" id="upload-zone">
+            <input type="file" id="f-image" accept="image/*" />
+            <div class="upload-zone-icon">📷</div>
+            <div class="upload-zone-text" id="upload-text">Drag &amp; drop or click to upload</div>
+            <img id="upload-preview" class="upload-preview" alt="" />
+          </div>
+        </div>
+        <button class="btn btn-primary" id="submit-btn">😴 Submit to the Nap Wall</button>
+        <div id="submit-status" style="display:none" class="alert"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <strong>Mean Whirls</strong> &mdash; Naptionals 2026 &nbsp;|&nbsp; Sleep is for the weak. Or the champions. &nbsp;😴
+    &nbsp;&nbsp;·&nbsp;&nbsp;<a href="index.html">Burn Book</a>
+  </footer>
+
+  <!-- Edit Modal -->
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal">
+      <div class="modal-header"><span class="modal-title">✏️ Edit Entry</span><button class="modal-close" id="edit-modal-close">✕</button></div>
+      <div class="modal-body">
+        <div class="modal-note" id="edit-modal-note"></div>
+        <input type="hidden" id="edit-entry-id" /><input type="hidden" id="edit-existing-image" />
+        <input type="hidden" id="edit-orig-subject" /><input type="hidden" id="edit-orig-text" /><input type="hidden" id="edit-orig-hashtags" />
+        <div class="form-group"><label class="form-label">Sleeper's Name *</label><input class="form-input" id="edit-subject" /></div>
+        <div class="form-group"><label class="form-label">The Scene <span class="form-label-note">(optional)</span></label><textarea class="form-textarea" id="edit-text"></textarea></div>
+        <div class="form-group"><label class="form-label">Hashtags</label><input class="form-input" id="edit-hashtags" placeholder="#deepnap #snoring" /></div>
+        <div class="form-group" id="edit-submitter-group">
+          <label class="form-label">Posting As</label>
+          <div id="edit-post-as-options" style="display:flex;flex-direction:column;gap:0.5rem;margin-top:0.25rem;"></div>
+        </div>
+        <div class="form-group" id="edit-quality-group" style="display:none">
+            <label class="form-label">Photo Quality <span class="form-label-note">(only if replacing photo)</span></label>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.25rem;">
+              <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;"><input type="radio" name="edit-quality" value="H" style="accent-color:var(--sky)" /><strong>High</strong> <span style="color:var(--muted);font-size:0.78rem">1920px</span></label>
+              <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;"><input type="radio" name="edit-quality" value="M" checked style="accent-color:var(--sky)" /><strong>Medium</strong> <span style="color:var(--muted);font-size:0.78rem">1200px</span></label>
+              <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;"><input type="radio" name="edit-quality" value="L" style="accent-color:var(--sky)" /><strong>Low</strong> <span style="color:var(--muted);font-size:0.78rem">900px</span></label>
+            </div>
+          </div>
+        <div class="form-group"><label class="form-label">Photo <span class="form-label-note">(upload to replace)</span></label>
+          <img id="edit-current-img" class="current-img" src="" alt="" style="display:none" />
+          <div class="upload-zone" id="edit-upload-zone"><input type="file" id="edit-image" accept="image/*" /><div class="upload-zone-icon">📷</div><div class="upload-zone-text" id="edit-upload-text">Drag &amp; drop or click to replace</div><img id="edit-upload-preview" class="upload-preview" alt="" /></div>
+        </div>
+        <button class="btn btn-primary" id="edit-submit-btn">Submit Edit for Review</button>
+        <div id="edit-status" style="display:none" class="alert"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Request Modal -->
+  <div class="modal-overlay" id="delete-modal">
+    <div class="modal">
+      <div class="modal-header"><span class="modal-title">🗑 Request Removal</span><button class="modal-close" id="delete-modal-close">✕</button></div>
+      <div class="modal-body">
+        <div class="modal-note">Once submitted, this entry will be immediately hidden while we review your request.</div>
+        <input type="hidden" id="del-entry-id" />
+        <div class="form-group" id="del-name-group"><label class="form-label">Your Name</label><input class="form-input" id="del-name" placeholder="Your name" /></div>
+        <div class="form-group"><label class="form-label">Reason *</label><textarea class="form-textarea" id="del-reason" placeholder="Why should this be removed?" style="min-height:90px"></textarea></div>
+        <button class="btn btn-primary" id="del-submit-btn">Submit Removal Request</button>
+        <div id="del-status" style="display:none" class="alert"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Contact Admin Modal -->
+  <div class="modal-overlay" id="contact-modal">
+    <div class="modal">
+      <div class="modal-header"><span class="modal-title">✉️ Contact MeanWhirls</span><button class="modal-close" id="contact-modal-close">✕</button></div>
+      <div class="modal-body">
+        <div class="modal-note">Send a message to the Mean Whirls crew about this entry — whether you want to challenge something, correct the record, or flag a concern. We'll review it privately.</div>
+        <input type="hidden" id="contact-entry-id" />
+        <input type="hidden" id="contact-entry-type" value="nap" />
+        <div class="form-group"><label class="form-label">Your Name</label><input class="form-input" id="contact-name" readonly style="opacity:0.7;cursor:default" /></div>
+        <div class="form-group"><label class="form-label">Subject *</label><input class="form-input" id="contact-subject" placeholder="e.g. I was NOT asleep" /></div>
+        <div class="form-group"><label class="form-label">Message *</label><textarea class="form-textarea" id="contact-message" placeholder="Tell us what's on your mind..." style="min-height:100px"></textarea></div>
+        <button class="btn btn-primary" id="contact-submit-btn">✉️ Send Message</button>
+        <div id="contact-status" style="display:none" class="alert"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── Config ────────────────────────────────────────────────
+    const SUPABASE_URL  = 'https://dhguaomtjclcldkkhlmt.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRoZ3Vhb210amNsY2xka2tobG10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3MjI5MzQsImV4cCI6MjA5NDI5ODkzNH0.hfaNxo9m1Tkpn8pIVoyTXcIRhf9jbpkTlw0kTpn6gyY';
+    const BUCKET = 'burnbook-images';
+    const getSb = () => window._sb;
+
+    let BADGE_ICON_URL = '', ANON_MOUSE_IMAGE = '', NAP_PLACEHOLDER_IMAGE_URL = '';
+    let PLACEHOLDER_EMOJI = '😴', PLACEHOLDER_IMAGE_URL = '';
+    let activeFilter = null, allEntries = [], currentDetailEntry = null;
+    let myVotes = JSON.parse(localStorage.getItem('mw_nap_votes') || '{}');
+
+    // ── Supabase ──────────────────────────────────────────────
+    const SB = SUPABASE_URL;
+    const getH = () => ({'Content-Type':'application/json','apikey':SUPABASE_ANON,'Authorization':'Bearer '+(window._sessionToken||SUPABASE_ANON)});
+    const sbGet    = async (t,p='')  => { const r=await fetch(`${SB}/rest/v1/${t}?${p}`,{headers:getH()}); if(!r.ok)throw new Error(await r.text()); return r.json(); };
+    const sbPost   = async (t,b)     => { const r=await fetch(`${SB}/rest/v1/${t}`,{method:'POST',headers:{...getH(),'Prefer':'return=representation'},body:JSON.stringify(b)}); if(!r.ok)throw new Error(await r.text()); return r.json(); };
+    const sbPatch  = async (t,p,b)   => { const r=await fetch(`${SB}/rest/v1/${t}?${p}`,{method:'PATCH',headers:{...getH(),'Prefer':'return=representation'},body:JSON.stringify(b)}); if(!r.ok)throw new Error(await r.text()); return r.json(); };
+    const sbDelete = async (t,p)     => { const r=await fetch(`${SB}/rest/v1/${t}?${p}`,{method:'DELETE',headers:getH()}); if(!r.ok)throw new Error(await r.text()); };
+    const sbUpsert = async (t,b,oc)  => { const u=`${SB}/rest/v1/${t}`+(oc?`?on_conflict=${oc}`:''); const r=await fetch(u,{method:'POST',headers:{...getH(),'Prefer':'resolution=merge-duplicates,return=representation'},body:JSON.stringify(b)}); if(!r.ok)throw new Error(await r.text()); return r.json(); };
+
+    const uploadImage = async (file) => {
+      const ext=file.name.split('.').pop().toLowerCase()||'jpg', path=`nap_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+      const r=await fetch(`${SB}/storage/v1/object/${BUCKET}/${path}`,{method:'POST',headers:{'apikey':SUPABASE_ANON,'Authorization':'Bearer '+SUPABASE_ANON,'Content-Type':file.type},body:file});
+      if(!r.ok)throw new Error('Image upload failed: '+await r.text());
+      return `${SB}/storage/v1/object/public/${BUCKET}/${path}`;
+    };
+
+
+
+    // ── Delete file from storage ──────────────────────────────
+    async function deleteStorageFile(imageUrl) {
+      if (!imageUrl) return;
+      try {
+        const prefix = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/`;
+        if (!imageUrl.startsWith(prefix)) return;
+        const path = imageUrl.slice(prefix.length);
+        await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON,
+            'Authorization': 'Bearer ' + SUPABASE_ANON
+          },
+          body: JSON.stringify({ prefixes: [path] })
+        });
+      } catch(e) {} // non-fatal
+    }
+    // ── Image resize before upload ────────────────────────────
+    async function resizeImage(file, maxDim=1920, quality=0.82) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          let {width:w, height:h} = img;
+          if (w <= maxDim && h <= maxDim) {
+            // Already small enough — still re-encode to JPEG to save space
+            const canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0);
+            canvas.toBlob(blob => resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), {type:'image/jpeg'})), 'image/jpeg', quality);
+          } else {
+            const ratio = Math.min(maxDim/w, maxDim/h);
+            w = Math.round(w*ratio); h = Math.round(h*ratio);
+            const canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            canvas.toBlob(blob => resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), {type:'image/jpeg'})), 'image/jpeg', quality);
+          }
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); resolve(file); }; // fallback: upload original
+        img.src = url;
+      });
+    }
+    const getIpHash = async () => {
+      try { const c=sessionStorage.getItem('mw_iphash'); if(c)return c; const {ip}=await (await fetch('https://api.ipify.org?format=json')).json(); let h=0; for(let i=0;i<ip.length;i++){h=((h<<5)-h)+ip.charCodeAt(i);h|=0;} const s='v'+Math.abs(h).toString(36); sessionStorage.setItem('mw_iphash',s); return s; }
+      catch { return 'anon_'+Math.random().toString(36).slice(2); }
+    };
+
+    // ── IP helpers (shared with burn book) ────────────────────
+    let _ipProfile = null;
+    async function getIpProfile() {
+      if(_ipProfile)return _ipProfile;
+      const ip=await getIpHash();
+      try { const rows=await sbGet('ip_profiles',`ip_hash=eq.${ip}`); if(rows.length){_ipProfile=rows[0];}else{const c=await sbPost('ip_profiles',{ip_hash:ip,is_blocked:false});_ipProfile=c[0];} }
+      catch(e){_ipProfile={ip_hash:ip,is_blocked:false};}
+      return _ipProfile;
+    }
+    // isBlocked: now handled by auth module
+    async function logActivity(action,entryId,detail){ try{const ip=await getIpHash();await sbPost('ip_activity',{ip_hash:ip,action,entry_id:entryId||null,detail:detail||''});await sbPatch('ip_profiles',`ip_hash=eq.${ip}`,{last_seen:new Date().toISOString()});}catch(e){} }
+
+    // ── Utils ─────────────────────────────────────────────────
+    const esc = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+    // ── Image quality tiers ───────────────────────────────────
+    const IMG_TIERS = {
+      H: { px:1920, q:0.82, label:'High',   desc:'1920px / 0.82 — full quality' },
+      M: { px:1200, q:0.78, label:'Medium', desc:'1200px / 0.78 — good for most photos' },
+      L: { px:900,  q:0.70, label:'Low',    desc:'900px / 0.70 — smallest file size' },
+    };
+    function tierFromRadio(name) { return document.querySelector(`input[name="${name}"]:checked`)?.value || 'M'; }
+    function tierParams(t) { return IMG_TIERS[t] || IMG_TIERS.M; }
+
+    // Image URL helper — applies Supabase transform params for display tiers
+    // tier: 'thumb' (card grid), 'detail' (detail sheet), raw otherwise (download)
+    const imgUrl = (url, tier) => {
+      // Returns url unchanged — image transformations cause rendering issues
+      // with mixed JPEG/PNG content. Display original uploaded images directly.
+      return url || '';
+    };
+    const parseHashtags = str => (str||'').match(/#\w+/g)?.map(t=>t.toLowerCase())||[];
+    const arraysEqual = (a,b) => a.length===b.length&&[...a].sort().join()===([...b]).sort().join();
+    const showToast = msg => { const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500); };
+
+    function makeBadgeMW() {
+      const s=document.createElement('span');s.className='badge-mw';
+      if(BADGE_ICON_URL){const img=document.createElement('img');img.src=BADGE_ICON_URL;img.alt='';s.appendChild(img);}
+      else{const sp=document.createElement('span');sp.className='badge-mw-text';sp.textContent='🥍';s.appendChild(sp);}
+      s.appendChild(document.createTextNode('MeanWhirls'));
+      return s;
+    }
+
+    function makeAnonDisplay() {
+      const s = document.createElement('span');
+      s.style.cssText = 'display:inline-flex;align-items:center;gap:0.3rem;';
+      if (ANON_MOUSE_IMAGE) {
+        const img = document.createElement('img');
+        img.src = ANON_MOUSE_IMAGE; img.alt = '🐭';
+        img.style.cssText = 'width:1em;height:1em;object-fit:contain;vertical-align:middle;';
+        s.appendChild(img);
+      } else {
+        s.appendChild(document.createTextNode('🐭'));
+      }
+      s.appendChild(document.createTextNode('Anonymous'));
+      return s;
+    }
+
+    function makePlaceholder(num){
+      const div=document.createElement('div');div.className='entry-img-placeholder';
+      if(num){const n=document.createElement('div');n.className='entry-img-num';n.textContent='#'+num;div.appendChild(n);}
+      const _napPhUrl=NAP_PLACEHOLDER_IMAGE_URL||PLACEHOLDER_IMAGE_URL;
+      if(_napPhUrl){const img=document.createElement('img');img.src=_napPhUrl;img.style.cssText='width:100%;height:100%;object-fit:contain';div.appendChild(img);}
+      else div.appendChild(document.createTextNode(PLACEHOLDER_EMOJI||'🛌'));
+      return div;
+    }
+
+    // ── Init ──────────────────────────────────────────────────
+    async function init() {
+      try {
+        const cfg=await sbGet('config');
+        cfg.forEach(r=>{
+          if(r.key==='badgeicon')        BADGE_ICON_URL        =r.value;
+          if(r.key==='anon_mouse_image') ANON_MOUSE_IMAGE      =r.value;
+          if(r.key==='placeholderemoji')       PLACEHOLDER_EMOJI         =r.value;
+          if(r.key==='placeholderimage')       PLACEHOLDER_IMAGE_URL     =r.value;
+          if(r.key==='nap_placeholder_image')  NAP_PLACEHOLDER_IMAGE_URL =r.value;
+        });
+      }catch(e){}
+      const hash=window.location.hash;
+      if(hash.startsWith('#nap-')){await loadEntries();const e=allEntries.find(e=>e.id===hash.slice(5));if(e)openDetail(e);}
+      else loadEntries();
+    }
+
+    // ── Tabs ──────────────────────────────────────────────────
+    document.querySelectorAll('.nav-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+        if(btn.dataset.tab==='book'){closeDetail();loadEntries();}
+        if(btn.dataset.tab==='hot') loadHallOfShame();
+      });
+    });
+    function goHome(){document.querySelector('.nav-btn[data-tab="book"]').click();}
+
+    // ── Filter ────────────────────────────────────────────────
+    function setFilter(tag){
+      activeFilter=tag;
+      document.getElementById('filter-clear').style.display=tag?'inline':'none';
+      const sel=document.getElementById('filter-select');if(sel)sel.value=tag||'';
+      renderEntries(tag?allEntries.filter(e=>(e.hashtags||[]).includes(tag)):allEntries,window._defMap,window._ccMap);
+    }
+    function clearFilter(){setFilter(null);}
+    function buildFilterBar(entries){const counts={};entries.forEach(e=>(e.hashtags||[]).forEach(t=>{counts[t]=(counts[t]||0)+1;}));const tags=Object.keys(counts).sort();const bar=document.getElementById('filter-bar');const wrap=document.getElementById('filter-tags');if(!tags.length){bar.style.display='none';return;}bar.style.display='flex';wrap.innerHTML='';tags.forEach(tag=>{const el=document.createElement('span');el.className='filter-tag';el.dataset.tag=tag;el.textContent=`${tag} (${counts[tag]})`;el.addEventListener('click',()=>setFilter(activeFilter===tag?null:tag));wrap.appendChild(el);});}
+
+    // ── Load entries ──────────────────────────────────────────
+    async function loadEntries(){
+      document.getElementById('entries-container').innerHTML='<div class="loading-wrap"><div class="spinner"></div></div>';
+      try{
+        const [entries,defenses,comments]=await Promise.all([
+          sbGet('nap_entries','status=eq.approved&hidden=eq.false&order=ui_order.asc.nullslast,created_at.asc'),
+          sbGet('nap_defenses','status=eq.approved&select=entry_id,text'),
+          sbGet('nap_comments','select=entry_id')
+        ]);
+        const defMap={};defenses.forEach(d=>{defMap[d.entry_id]=d.text;});
+        const ccMap={};comments.forEach(c=>{ccMap[c.entry_id]=(ccMap[c.entry_id]||0)+1;});
+        window._defMap=defMap; window._ccMap=ccMap;
+        allEntries=entries;buildFilterBar(entries);
+        renderEntries(activeFilter?entries.filter(e=>(e.hashtags||[]).includes(activeFilter)):entries,defMap,ccMap);
+      }catch(err){document.getElementById('entries-container').innerHTML=`<div class="empty"><div class="empty-icon">😬</div><h3>Could not load entries</h3><p>${esc(err.message)}</p></div>`;}
+    }
+
+    function renderEntries(entries,defMap,ccMap){
+      const el=document.getElementById('entries-container');
+      if(!entries.length){el.innerHTML=`<div class="empty"><div class="empty-icon">😴</div><h3>No nappers caught yet</h3><p style="font-size:.85rem">${activeFilter?'No entries with '+activeFilter:'Stay vigilant. They will slip up.'}</p></div>`;return;}
+      const grid=document.createElement('div');grid.className='entries-grid';
+      entries.forEach((e,i)=>{
+        const card=document.createElement('div');card.className='entry-card';card.style.animationDelay=(i*0.05)+'s';
+        card.addEventListener('click',()=>openDetail(e));
+        if(e.image_url){const wrap=document.createElement('div');wrap.className='entry-img-wrap';if(e.ui_order){const n=document.createElement('div');n.className='entry-img-num';n.textContent='#'+e.ui_order;wrap.appendChild(n);}const img=document.createElement('img');img.className='entry-img';img.src=imgUrl(e.image_url,'thumb');img.alt=e.subject;img.onerror=function(){this.onerror=null;this.src=e.image_url;};wrap.appendChild(img);card.appendChild(wrap);}
+        else card.appendChild(makePlaceholder(e.ui_order));
+        const body=document.createElement('div');body.className='entry-body';
+        body.innerHTML=`<div class="entry-subject">${esc(e.subject)}</div>`;
+        if(e.text){const p=document.createElement('p');p.className='entry-text';p.textContent=e.text;body.appendChild(p);}
+        if(e.hashtags&&e.hashtags.length){const tagRow=document.createElement('div');tagRow.className='entry-hashtags';e.hashtags.forEach(tag=>{const t=document.createElement('span');t.className='entry-hashtag';t.textContent=tag;t.addEventListener('click',ev=>{ev.stopPropagation();setFilter(tag);});tagRow.appendChild(t);});body.appendChild(tagRow);}
+        card.appendChild(body);
+        const footer=document.createElement('div');footer.className='entry-footer';footer.addEventListener('click',ev=>ev.stopPropagation());
+        const meta=document.createElement('div');meta.className='entry-meta';
+        if(e.is_mean_whirls)meta.appendChild(makeBadgeMW());
+        else{const a=document.createElement('span');a.className='entry-author';const byNode=document.createTextNode('by ');const strong=document.createElement('strong');if(e.display_author==='Anonymous'){strong.appendChild(makeAnonDisplay());}else{strong.textContent=e.display_author;}a.appendChild(byNode);a.appendChild(strong);meta.appendChild(a);}
+        footer.appendChild(meta);card.appendChild(footer);
+        if(defMap&&defMap[e.id]){const ds=document.createElement('div');ds.className='card-defense-strip';ds.textContent='😤 '+defMap[e.id];card.appendChild(ds);}
+        const cc=(ccMap&&ccMap[e.id])||0;
+        if(cc>0){const ccEl=document.createElement('div');ccEl.className='card-comment-count';ccEl.innerHTML=`💬 <span>${cc}</span> comment${cc!==1?'s':''}`;card.appendChild(ccEl);}
+        grid.appendChild(card);
+      });
+      el.innerHTML='';el.appendChild(grid);
+    }
+
+    // ── Detail ────────────────────────────────────────────────
+    async function openDetail(entry){
+      currentDetailEntry=entry;
+      const sheet=document.getElementById('detail-page');
+      const overlay=document.getElementById('detail-overlay');
+      window.location.hash='nap-'+entry.id;
+      document.getElementById('detail-header-title').textContent=entry.subject;
+      // Photo
+      const imgEl=document.getElementById('detail-img'),phEl=document.getElementById('detail-placeholder'),dlBtn=document.getElementById('detail-download'),numBadge=document.getElementById('detail-img-num');
+      if(entry.image_url){imgEl.src=imgUrl(entry.image_url,'detail');imgEl.onerror=function(){this.onerror=null;this.src=entry.image_url;};imgEl.style.display='block';phEl.style.display='none';dlBtn.href=entry.image_url;dlBtn.style.display='inline-flex';}
+      else{imgEl.style.display='none';phEl.innerHTML=(NAP_PLACEHOLDER_IMAGE_URL||PLACEHOLDER_IMAGE_URL)?`<img src="${esc(NAP_PLACEHOLDER_IMAGE_URL||PLACEHOLDER_IMAGE_URL)}" style="max-width:100%;max-height:55vh;object-fit:contain"/>`:(PLACEHOLDER_EMOJI||'🛌');phEl.style.display='flex';dlBtn.style.display='none';}
+      numBadge.textContent=entry.ui_order?'#'+entry.ui_order:'';
+      // Title + text
+      document.getElementById('detail-subject').textContent=entry.subject;
+      document.getElementById('detail-text').textContent=entry.text||'';
+      // Hashtags
+      const hEl=document.getElementById('detail-hashtags');hEl.innerHTML='';
+      (entry.hashtags||[]).forEach(tag=>{const t=document.createElement('span');t.className='detail-hashtag';t.textContent=tag;t.addEventListener('click',()=>{closeDetail();setTimeout(()=>setFilter(tag),100);});hEl.appendChild(t);});
+      // Author row
+      const metaEl=document.getElementById('detail-meta-row');metaEl.innerHTML='';
+      if(entry.is_mean_whirls)metaEl.appendChild(makeBadgeMW());
+      else{const a=document.createElement('span');a.className='entry-author';const byNode=document.createTextNode('by ');const strong=document.createElement('strong');if(entry.display_author==='Anonymous'){strong.appendChild(makeAnonDisplay());}else{strong.textContent=entry.display_author;}a.appendChild(byNode);a.appendChild(strong);metaEl.appendChild(a);}
+      // Action buttons
+      const _napProf=await getIpProfile();
+      const _napIp=await getIpHash();
+      const _napIsOwner=(entry.user_id&&entry.user_id===getUserId())||(entry.ip_hash&&entry.ip_hash===_napIp);
+      const actEl=document.getElementById('detail-action-btns');actEl.innerHTML='';
+      if(_napIsOwner||_napProf.is_admin){const eb=document.createElement('button');eb.className='detail-sec-btn';eb.textContent='✏️ Edit';eb.addEventListener('click',()=>openEditModal(entry));actEl.appendChild(eb);}
+      const rb=document.createElement('button');rb.className='detail-sec-btn danger';rb.textContent='🗑 Request Removal';rb.addEventListener('click',()=>openDeleteRequestModal(currentDetailEntry));actEl.appendChild(rb);
+      const cb=document.createElement('button');cb.className='detail-sec-btn';cb.textContent='✉️ Contact MeanWhirls';cb.addEventListener('click',()=>openContactModal(entry.id,'nap'));actEl.appendChild(cb);
+      // Share URLs
+      const shareUrl=window.location.origin+window.location.pathname+'#nap-'+entry.id;
+      const enc=encodeURIComponent(shareUrl),txt=encodeURIComponent('Check out this Naptionals entry: '+entry.subject+' got caught sleeping!');
+      document.getElementById('share-url').value=shareUrl;
+      document.getElementById('share-fb').href=`https://www.facebook.com/sharer/sharer.php?u=${enc}`;
+      document.getElementById('share-tw').href=`https://twitter.com/intent/tweet?url=${enc}&text=${txt}`;
+      document.getElementById('detail-share-popup').style.display='none';
+      sheet.scrollTop=0;
+      overlay.classList.add('open');
+      sheet.classList.add('open');
+      document.body.style.overflow='hidden';
+      const onSheetScroll=()=>{const titleEl=document.getElementById('detail-header-title');if(titleEl)titleEl.style.opacity=sheet.scrollTop>60?'1':'0';};
+      sheet.removeEventListener('scroll',sheet._scrollHandler);
+      sheet._scrollHandler=onSheetScroll;
+      sheet.addEventListener('scroll',onSheetScroll);
+      const ipHash=await getIpHash();
+      loadDefense(entry.id,ipHash);
+      loadComments(entry.id,ipHash);
+    }
+    function closeDetail(){
+      const sheet=document.getElementById('detail-page');
+      const overlay=document.getElementById('detail-overlay');
+      overlay.classList.remove('open');
+      sheet.classList.remove('open');
+      document.body.style.overflow='';
+      currentDetailEntry=null;
+      history.replaceState(null,'',window.location.pathname);
+    }
+    function toggleSharePopup(){
+      const p=document.getElementById('detail-share-popup');
+      p.style.display=p.style.display==='none'?'block':'none';
+    }
+    function copyShareUrl(){
+      navigator.clipboard.writeText(document.getElementById('share-url').value).then(()=>{
+        document.getElementById('detail-share-popup').style.display='none';
+        showToast('Link copied! 😴');
+      });
+    }
+
+
+    // ── Sleeper's Defense ─────────────────────────────────────
+    async function loadDefense(entryId,ipHash){
+      const el=document.getElementById('detail-defense');el.innerHTML='';
+      try{
+        const approved=await sbGet('nap_defenses',`entry_id=eq.${entryId}&status=eq.approved`);
+        const pending=await sbGet('nap_defenses',`entry_id=eq.${entryId}&status=eq.pending&ip_hash=eq.${ipHash}`);
+        const section=document.createElement('div');section.className='defense-section';
+        const title=document.createElement('div');title.className='defense-section-title';title.textContent='😤 Sleeper\'s Defense';section.appendChild(title);
+        if(approved.length){
+          const stmt=approved[0];const isOwn=stmt.ip_hash===ipHash;
+          const p=document.createElement('p');p.className='defense-text';p.textContent=stmt.text;section.appendChild(p);
+          const meta=document.createElement('div');meta.className='defense-meta';
+          if(isOwn){
+            const eb=document.createElement('button');eb.className='defense-own-btn';eb.textContent='✏️ Edit';eb.addEventListener('click',()=>openDefenseEditForm(section,stmt,entryId,ipHash));meta.appendChild(eb);
+            const db=document.createElement('button');db.className='defense-own-btn';db.textContent='🗑 Remove';db.addEventListener('click',async()=>{if(!confirm('Remove your defense?'))return;try{await sbPatch('nap_defenses',`id=eq.${stmt.id}`,{status:'deleted'});loadDefense(entryId,ipHash);}catch(e){showToast('Failed.');}});meta.appendChild(db);
+          }
+          section.appendChild(meta);
+        }else if(pending.length){
+          const p=document.createElement('p');p.className='defense-pending';p.textContent='⏳ Your defense is awaiting moderation.';section.appendChild(p);
+          const cb=document.createElement('button');cb.className='defense-own-btn';cb.style.marginTop='0.5rem';cb.textContent='✕ Cancel';
+          cb.addEventListener('click',async()=>{if(!confirm('Cancel your pending defense?'))return;try{await sbDelete('nap_defenses',`entry_id=eq.${entryId}&ip_hash=eq.${ipHash}&status=eq.pending`);loadDefense(entryId,ipHash);}catch(e){showToast('Failed.');}});section.appendChild(cb);
+        }else{
+          const btn=document.createElement('button');btn.className='defense-add-btn';btn.textContent='😤 I Was NOT Asleep — Add Your Defense';
+          btn.addEventListener('click',()=>{
+            // Confirm they are the sleeper
+            const sleeperName=currentDetailEntry?.subject||'the person in this photo';
+            if(!confirm(`Are you ${sleeperName}?`)){alert('Get out of here then. 👋');return;}
+            openDefenseAddForm(section,entryId,ipHash);
+          });
+          section.appendChild(btn);
+        }
+        el.appendChild(section);
+      }catch(e){console.error(e);}
+    }
+
+    function openDefenseAddForm(section,entryId,ipHash){
+      const existing=section.querySelector('.defense-form');if(existing)existing.remove();
+      const form=document.createElement('div');form.className='defense-form';
+      const ta=document.createElement('textarea');ta.className='defense-input';ta.placeholder='I was NOT asleep. I was merely resting my eyes because...';
+      const btn=document.createElement('button');btn.className='defense-submit-btn';btn.textContent='Submit Defense';
+      const msg=document.createElement('div');msg.className='defense-msg';msg.style.display='none';
+      btn.addEventListener('click',async()=>{
+        const text=ta.value.trim();if(!text)return;
+        if (!requireAuth('defense')) return;
+        btn.disabled=true;btn.textContent='Submitting...';
+        try{await sbPost('nap_defenses',{entry_id:entryId,text,ip_hash:ipHash,status:'pending',user_id:getUserId()});await logActivity('victim_statement',entryId,`Sleeper's defense for: "${currentDetailEntry?.subject||''}"`); msg.className='defense-msg ok';msg.textContent='✅ Defense submitted for moderation!';msg.style.display='block';setTimeout(()=>loadDefense(entryId,ipHash),2000);}
+        catch(e){msg.className='defense-msg err';msg.textContent='Failed: '+e.message;msg.style.display='block';}
+        btn.disabled=false;btn.textContent='Submit Defense';
+      });
+      form.appendChild(ta);form.appendChild(btn);form.appendChild(msg);section.appendChild(form);ta.focus();
+    }
+
+    function openDefenseEditForm(section,stmt,entryId,ipHash){
+      const existing=section.querySelector('.defense-form');if(existing)existing.remove();
+      const form=document.createElement('div');form.className='defense-form';
+      const ta=document.createElement('textarea');ta.className='defense-input';ta.value=stmt.text;
+      const btn=document.createElement('button');btn.className='defense-submit-btn';btn.textContent='Save Changes';
+      const msg=document.createElement('div');msg.className='defense-msg';msg.style.display='none';
+      btn.addEventListener('click',async()=>{
+        const text=ta.value.trim();if(!text)return;btn.disabled=true;
+        try{await sbPatch('nap_defenses',`id=eq.${stmt.id}`,{text,status:'pending'});msg.className='defense-msg ok';msg.textContent='✅ Updated — awaiting re-moderation.';msg.style.display='block';setTimeout(()=>loadDefense(entryId,ipHash),2000);}
+        catch(e){msg.className='defense-msg err';msg.textContent='Failed: '+e.message;msg.style.display='block';}
+        btn.disabled=false;btn.textContent='Save Changes';
+      });
+      form.appendChild(ta);form.appendChild(btn);form.appendChild(msg);section.appendChild(form);ta.focus();
+    }
+
+    // ── Comments ──────────────────────────────────────────────
+    async function loadComments(entryId,ipHash){
+      const el=document.getElementById('detail-comments');el.innerHTML='';
+      try{
+        const comments=await sbGet('nap_comments',`entry_id=eq.${entryId}&order=created_at.asc`);
+        const title=document.createElement('div');title.className='comments-title';title.textContent=`💬 Comments (${comments.length})`;el.appendChild(title);
+        comments.forEach(c=>{
+          const isOwn=c.ip_hash===ipHash;
+          const item=document.createElement('div');item.className='comment-item';
+          item.innerHTML=`<div class="comment-author">${esc(c.author)}</div><div class="comment-text" data-ctext="${esc(c.id)}">${esc(c.text)}</div>`;
+          const meta=document.createElement('div');meta.className='comment-meta';
+          const date=document.createElement('span');date.className='comment-date';date.textContent=new Date(c.created_at).toLocaleString();meta.appendChild(date);
+          if(isOwn){
+            const eb=document.createElement('button');eb.className='comment-own-btn';eb.textContent='✏️';eb.title='Edit';eb.addEventListener('click',()=>openCommentEdit(item,c,entryId,ipHash));meta.appendChild(eb);
+            const db=document.createElement('button');db.className='comment-own-btn';db.textContent='🗑';db.title='Delete';db.addEventListener('click',async()=>{if(!confirm('Delete this comment?'))return;try{await sbDelete('nap_comments',`id=eq.${c.id}`);loadComments(entryId,ipHash);}catch(e){showToast('Failed.');}});meta.appendChild(db);
+          }
+          item.appendChild(meta);el.appendChild(item);
+        });
+        if (!isLoggedIn()) {
+          const msg=document.createElement('div');
+          msg.style.cssText='background:var(--blush);border:1.5px solid rgba(44,74,110,0.12);border-radius:2px;padding:0.9rem 1rem;margin-top:0.5rem;font-size:0.82rem;color:var(--muted);text-align:center;';
+          msg.innerHTML=`<span style="font-weight:600;color:var(--steel)">Sign in to leave a comment.</span> <button onclick="openAuthModal()" style="background:none;border:none;color:var(--steel);font-family:inherit;font-size:inherit;font-weight:700;cursor:pointer;text-decoration:underline;padding:0;">Sign in →</button>`;
+          el.appendChild(msg);
+        } else {
+        const form=document.createElement('div');form.className='add-comment-form';
+        form.innerHTML=`<div class="add-comment-title">Leave a Comment</div>`;
+        const nameRow=document.createElement('div');nameRow.style.cssText='display:flex;align-items:center;gap:0.6rem;margin-bottom:0.4rem;flex-wrap:wrap;';
+        const nameInput=document.createElement('input');nameInput.className='comment-input';nameInput.style.cssText='flex:1;min-width:120px;opacity:0.7;cursor:default;';nameInput.readOnly=true;nameInput.value=getDisplayName();
+        let mwCb=null;
+        if(isAdmin()){const mwLabel=document.createElement('label');mwLabel.style.cssText='display:flex;align-items:center;gap:0.3rem;font-size:0.78rem;cursor:pointer;white-space:nowrap;';mwCb=document.createElement('input');mwCb.type='checkbox';mwLabel.appendChild(mwCb);mwLabel.appendChild(document.createTextNode('MeanWhirls'));nameRow.appendChild(mwLabel);}
+        form.appendChild(nameRow);
+        const textInput=document.createElement('textarea');textInput.className='comment-textarea';textInput.placeholder='Say something...';
+        const submitBtn=document.createElement('button');submitBtn.className='comment-submit-btn';submitBtn.textContent='💬 Post Comment';
+        const msgEl=document.createElement('div');msgEl.className='comment-msg';msgEl.style.display='none';
+        submitBtn.addEventListener('click',async()=>{
+          const postAsMW=mwCb&&mwCb.checked;
+          const author=postAsMW?'MeanWhirls':getDisplayName();
+          const text=textInput.value.trim();
+          if(!text){msgEl.className='comment-msg err';msgEl.textContent='Comment cannot be empty.';msgEl.style.display='block';return;}
+          submitBtn.disabled=true;submitBtn.textContent='Posting...';
+          try{await sbPost('nap_comments',{entry_id:entryId,author,text,ip_hash:ipHash,user_id:getUserId()});await logActivity('comment',entryId,`Comment by ${author} on: "${currentDetailEntry?.subject||''}"`);;textInput.value='';if(mwCb)mwCb.checked=false;loadComments(entryId,ipHash);}
+          catch(e){msgEl.className='comment-msg err';msgEl.textContent='Failed: '+e.message;msgEl.style.display='block';}
+          submitBtn.disabled=false;submitBtn.textContent='💬 Post Comment';
+        });
+        form.appendChild(textInput);form.appendChild(submitBtn);form.appendChild(msgEl);
+        el.appendChild(form);
+        }
+      }catch(e){console.error(e);}
+    }
+
+    function openCommentEdit(item,c,entryId,ipHash){
+      const existing=item.querySelector('.comment-edit-form');if(existing){existing.remove();return;}
+      const form=document.createElement('div');form.className='comment-edit-form';form.style.marginTop='0.5rem';
+      const ta=document.createElement('textarea');ta.className='comment-textarea';ta.value=c.text;ta.style.marginTop='0';
+      const btn=document.createElement('button');btn.className='comment-submit-btn';btn.textContent='Save';btn.style.cssText='font-size:0.68rem;padding:0.4rem 1rem;';
+      btn.addEventListener('click',async()=>{const text=ta.value.trim();if(!text)return;btn.disabled=true;try{await sbPatch('nap_comments',`id=eq.${c.id}`,{text});loadComments(entryId,ipHash);}catch(e){showToast('Failed.');}btn.disabled=false;});
+      form.appendChild(ta);form.appendChild(btn);item.appendChild(form);ta.focus();
+    }
+
+    // ── Hall of Shame (most comments) ─────────────────────────
+    async function loadHallOfShame(){
+      const container=document.getElementById('hot-container');container.innerHTML='<div class="loading-wrap"><div class="spinner"></div></div>';
+      try{
+        const [entries,comments]=await Promise.all([
+          sbGet('nap_entries','status=eq.approved&hidden=eq.false&select=*'),
+          sbGet('nap_comments','select=entry_id')
+        ]);
+        const counts={};comments.forEach(c=>{counts[c.entry_id]=(counts[c.entry_id]||0)+1;});
+        const scored=entries.map(e=>({...e,commentCount:counts[e.id]||0})).filter(e=>e.commentCount>0).sort((a,b)=>b.commentCount-a.commentCount||a.ui_order-b.ui_order);
+        const limit=parseInt(document.getElementById('hot-count').value)||0;
+        const shown=limit?scored.slice(0,limit):scored;
+        if(!shown.length){container.innerHTML=`<div class="empty"><div class="empty-icon">😴</div><h3>No comments yet</h3><p style="font-size:.85rem">Start roasting the sleepers!</p></div>`;return;}
+        const list=document.createElement('div');list.className='hot-list';
+        shown.forEach((e,i)=>{
+          const card=document.createElement('div');card.className='hot-card';card.style.animationDelay=(i*0.04)+'s';
+          card.addEventListener('click',()=>{goHome();setTimeout(()=>{const entry=allEntries.find(en=>en.id===e.id);if(entry)openDetail(entry);},150);});
+          const rankEl=document.createElement('div');rankEl.className='hot-rank';rankEl.textContent=i+1;
+          const imgEl=document.createElement('div');imgEl.className='hot-img';
+          if(e.image_url){const img=document.createElement('img');img.src=imgUrl(e.image_url,'thumb');img.alt=e.subject;img.onerror=function(){this.onerror=null;this.src=e.image_url;};imgEl.appendChild(img);}
+          else imgEl.textContent=PLACEHOLDER_EMOJI||'🛌';
+          const body=document.createElement('div');body.className='hot-body';
+          body.innerHTML=`<div class="hot-subject">#${e.ui_order||'?'} — ${esc(e.subject)}</div><div class="hot-text">${esc(e.text||'')}</div><div class="hot-comments">💬 <span>${e.commentCount}</span> comment${e.commentCount!==1?'s':''}</div>`;
+          card.appendChild(rankEl);card.appendChild(imgEl);card.appendChild(body);list.appendChild(card);
+        });
+        container.innerHTML='';container.appendChild(list);
+      }catch(err){container.innerHTML=`<div class="empty"><div class="empty-icon">😬</div><h3>Could not load</h3><p>${esc(err.message)}</p></div>`;}
+    }
+
+    // ── Submit ────────────────────────────────────────────────
+    let selectedFile=null;
+    document.getElementById('f-image').addEventListener('change',function(){if(this.files[0]){selectedFile=this.files[0];showFilePreview(this.files[0]);}});
+    document.getElementById('upload-zone').addEventListener('dragover',e=>e.preventDefault());
+    document.getElementById('upload-zone').addEventListener('drop',e=>{e.preventDefault();if(e.dataTransfer.files[0]){selectedFile=e.dataTransfer.files[0];showFilePreview(selectedFile);}});
+    function showFilePreview(file){document.getElementById('upload-text').textContent=file.name;const r=new FileReader();r.onload=ev=>{const p=document.getElementById('upload-preview');p.src=ev.target.result;p.style.display='block';};r.readAsDataURL(file);}
+    function showStatus(type,msg){const el=document.getElementById('submit-status');el.className='alert alert-'+type;el.textContent=msg;el.style.display='block';}
+
+    document.getElementById('submit-btn').addEventListener('click',async()=>{
+      const subject=document.getElementById('f-subject').value.trim(),text=document.getElementById('f-text').value.trim(),hashtagRaw=document.getElementById('f-hashtags').value.trim();
+      const _selPostAs=document.querySelector('input[name="f-post-as"]:checked')?.value||getDisplayName();
+      const postAsMW=_selPostAs==='MeanWhirls',anonymous=_selPostAs==='Anonymous';
+      const submitter=getDisplayName();
+      if(!subject){showStatus('error','Who got caught sleeping?');return;}
+      if(!isLoggedIn()){showStatus('error','Sign in to submit.');return;}
+      if(await isBlocked()){showStatus('error','Your access has been restricted.');return;}
+      const btn=document.getElementById('submit-btn');btn.disabled=true;btn.innerHTML='<span class="spinner-sm"></span> Submitting...';document.getElementById('submit-status').style.display='none';
+      const isMW=postAsMW,displayAuthor=isMW?'MeanWhirls':(anonymous?'Anonymous':submitter),hashtags=parseHashtags(hashtagRaw);
+      const _sqTier=tierFromRadio('f-quality');const _sqP=tierParams(_sqTier);
+      try{
+        let imageUrl='',imageQuality=null;if(selectedFile){const resized=await resizeImage(selectedFile,_sqP.px,_sqP.q);imageUrl=await uploadImage(resized);imageQuality=_sqTier;}
+        const existing=await sbGet('nap_entries','select=ui_order&order=ui_order.desc.nullslast&limit=1');
+        const nextOrder=((existing[0]?.ui_order)||0)+1;
+        const _subIp=await getIpHash();const _subPayload={subject,text,image_url:imageUrl,status:isMW?'approved':'pending',submitter,display_author:displayAuthor,is_mean_whirls:isMW,hashtags,ui_order:nextOrder,hidden:false,ip_hash:_subIp,user_id:getUserId()};if(imageQuality)_subPayload.image_quality=imageQuality;await sbPost('nap_entries',_subPayload);
+        await logActivity('submit',null,`Submitted nap entry: "${subject}"`);
+        showStatus('success',isMW?'😴 Mean Whirls nap posted!':'✅ Submitted! Appears after moderation.');
+        resetSubmitForm();
+      }catch(err){showStatus('error','Something went wrong: '+err.message);}
+      btn.disabled=false;btn.innerHTML='😴 Submit to the Nap Wall';
+    });
+
+    function resetSubmitForm(){['f-subject','f-text','f-hashtags'].forEach(id=>document.getElementById(id).value='');const firstRadio=document.querySelector('input[name="f-post-as"]');if(firstRadio)firstRadio.checked=true;const mRadio=document.querySelector('input[name="f-quality"][value="M"]');if(mRadio)mRadio.checked=true;selectedFile=null;document.getElementById('upload-text').textContent='Drag & drop or click to upload';const p=document.getElementById('upload-preview');p.style.display='none';p.src='';document.getElementById('f-image').value='';}
+
+    // ── Delete request ────────────────────────────────────────
+    const deleteModal=document.getElementById('delete-modal');
+    function openDeleteRequestModal(entry){
+  if(!entry)return;
+  document.getElementById('del-entry-id').value=entry.id;
+  document.getElementById('del-reason').value='';
+  document.getElementById('del-status').style.display='none';
+  const nameGroup=document.getElementById('del-name-group');
+  const nameInput=document.getElementById('del-name');
+  if(nameGroup)nameGroup.style.display='block';
+  if(nameInput)nameInput.value=isLoggedIn()?getDisplayName():'';
+  deleteModal.classList.add('open');document.body.style.overflow='hidden';
+}
+    function closeDeleteModal(){deleteModal.classList.remove('open');document.body.style.overflow='';}
+    document.getElementById('delete-modal-close').addEventListener('click',closeDeleteModal);
+    deleteModal.addEventListener('click',e=>{if(e.target===deleteModal)closeDeleteModal();});
+    document.getElementById('del-submit-btn').addEventListener('click',async()=>{
+      const entryId=document.getElementById('del-entry-id').value,reason=document.getElementById('del-reason').value.trim();
+      if(!reason){showDelStatus('error','Please provide a reason.');return;}
+      const btn=document.getElementById('del-submit-btn');btn.disabled=true;btn.innerHTML='<span class="spinner-sm"></span> Submitting...';
+      try{
+        await sbPatch('nap_entries',`id=eq.${entryId}`,{hidden:true});
+        if(isAdmin()){const _delNap=allEntries.find(e=>e.id===entryId);if(_delNap?.image_url)await deleteStorageFile(_delNap.image_url);await sbDelete('nap_entries',`id=eq.${entryId}`);showDelStatus('success','✅ Entry removed immediately.');setTimeout(()=>{closeDeleteModal();closeDetail();loadEntries();},1500);}
+        else{await sbPost('nap_deletion_requests',{entry_id:entryId,reason});await logActivity('removal_request',entryId,`Removal requested: "${currentDetailEntry?.subject||''}"`);showDelStatus('success','✅ Request submitted. Entry hidden while we review. Thank you.');setTimeout(()=>{closeDeleteModal();closeDetail();loadEntries();},2500);}
+      }catch(err){showDelStatus('error','Something went wrong: '+err.message);}
+      btn.disabled=false;btn.innerHTML='Submit Removal Request';
+    });
+    function showDelStatus(type,msg){const el=document.getElementById('del-status');el.className='alert alert-'+type;el.textContent=msg;el.style.display='block';}
+
+    // ── Edit modal ────────────────────────────────────────────
+    const editModal=document.getElementById('edit-modal');
+    let editImageFile=null;
+    function openEditModal(entry){
+      document.getElementById('edit-entry-id').value=entry.id;
+      document.getElementById('edit-subject').value=entry.subject;
+      document.getElementById('edit-text').value=entry.text||'';
+      document.getElementById('edit-hashtags').value=(entry.hashtags||[]).join(' ');
+      document.getElementById('edit-existing-image').value=entry.image_url||'';
+      document.getElementById('edit-orig-subject').value=entry.subject;
+      document.getElementById('edit-orig-text').value=entry.text||'';
+      document.getElementById('edit-orig-hashtags').value=(entry.hashtags||[]).sort().join(' ');
+      document.getElementById('edit-status').style.display='none';
+      editImageFile=null;
+      const _eqg=document.getElementById('edit-quality-group');if(_eqg)_eqg.style.display='none';
+      document.getElementById('edit-upload-text').textContent='Drag & drop or click to replace';
+      document.getElementById('edit-upload-preview').style.display='none';
+      document.getElementById('edit-image').value='';
+      // Build post-as radios
+      const _eName=getDisplayName(),_eAdmin=isAdmin();
+      const _eCurVal=entry.is_mean_whirls?'MeanWhirls':(entry.display_author==='Anonymous'?'Anonymous':_eName);
+      const _eOpts=_eAdmin?[['edit-post-mw','MeanWhirls'],['edit-post-name',_eName],['edit-post-anon','Anonymous']]:[['edit-post-name',_eName],['edit-post-anon','Anonymous']];
+      const _eRadioStyle='display:flex;align-items:center;gap:0.5rem;font-size:0.88rem;cursor:pointer;';
+      document.getElementById('edit-post-as-options').innerHTML=_eOpts.map(o=>
+        `<label style="${_eRadioStyle}"><input type="radio" name="edit-post-as" value="${o[1]}" ${(o[1]===_eCurVal||(o[0]==='edit-post-name'&&_eCurVal===_eName))?'checked':''} style="accent-color:var(--sky)" /><strong>${o[1]}</strong></label>`
+      ).join('');
+      document.getElementById('edit-modal-note').textContent='✏️ Only edit your own entry. Changes go through moderation. Hashtag-only changes apply immediately.';
+      document.getElementById('edit-submitter-group').style.display='block';document.getElementById('edit-submit-btn').innerHTML='😴 Submit Edit for Review';
+      const curImg=document.getElementById('edit-current-img');if(entry.image_url){curImg.src=entry.image_url;curImg.style.display='block';}else{curImg.style.display='none';}
+      editModal.classList.add('open');document.body.style.overflow='hidden';
+    }
+    function closeEditModal(){editModal.classList.remove('open');document.body.style.overflow='';}
+    document.getElementById('edit-modal-close').addEventListener('click',closeEditModal);
+    editModal.addEventListener('click',e=>{if(e.target===editModal)closeEditModal();});
+    document.getElementById('edit-image').addEventListener('change',function(){if(this.files[0])handleEditImage(this.files[0]);});
+    document.getElementById('edit-upload-zone').addEventListener('dragover',e=>e.preventDefault());
+    document.getElementById('edit-upload-zone').addEventListener('drop',e=>{e.preventDefault();if(e.dataTransfer.files[0])handleEditImage(e.dataTransfer.files[0]);});
+    function handleEditImage(file){editImageFile=file;const qg=document.getElementById('edit-quality-group');if(qg)qg.style.display='block';document.getElementById('edit-upload-text').textContent=file.name;const r=new FileReader();r.onload=ev=>{const p=document.getElementById('edit-upload-preview');p.src=ev.target.result;p.style.display='block';document.getElementById('edit-current-img').style.display='none';};r.readAsDataURL(file);}
+    function showEditStatus(type,msg){const el=document.getElementById('edit-status');el.className='alert alert-'+type;el.textContent=msg;el.style.display='block';}
+
+    document.getElementById('edit-submit-btn').addEventListener('click',async()=>{
+      const entryId=document.getElementById('edit-entry-id').value,subject=document.getElementById('edit-subject').value.trim(),text=document.getElementById('edit-text').value.trim(),hashtagRaw=document.getElementById('edit-hashtags').value.trim(),existingImg=document.getElementById('edit-existing-image').value,origSubject=document.getElementById('edit-orig-subject').value,origText=document.getElementById('edit-orig-text').value,origTagsStr=document.getElementById('edit-orig-hashtags').value;
+      const _editPostAs=document.querySelector('input[name="edit-post-as"]:checked')?.value||getDisplayName();
+      const postAsMW=_editPostAs==='MeanWhirls',anonymous=_editPostAs==='Anonymous';
+      const submitter=getDisplayName();
+      if(!subject){showEditStatus('error','Sleeper name required.');return;}
+      if(await isBlocked()){showEditStatus('error','Your access has been restricted.');return;}
+      const btn=document.getElementById('edit-submit-btn');btn.disabled=true;btn.innerHTML='<span class="spinner-sm"></span> Submitting...';
+      const isMW=postAsMW,hashtags=parseHashtags(hashtagRaw),origTags=origTagsStr?origTagsStr.split(' ').filter(Boolean):[],displayAuthor=isMW?'MeanWhirls':(anonymous?'Anonymous':submitter);
+      const onlyTagsChanged=!editImageFile&&subject===origSubject&&text===origText&&!arraysEqual(hashtags,origTags);
+      const nothingChanged=!editImageFile&&subject===origSubject&&text===origText&&arraysEqual(hashtags,origTags);
+      if(nothingChanged){showEditStatus('error','No changes detected.');btn.disabled=false;btn.innerHTML='Submit Edit for Review';return;}
+      try{
+        let imageUrl=existingImg;if(editImageFile){const resized=await resizeImage(editImageFile);imageUrl=await uploadImage(resized);}
+        if(isMW||onlyTagsChanged){const patch={hashtags};if(!onlyTagsChanged){patch.subject=subject;patch.text=text;patch.image_url=imageUrl;if(editImageFile&&existingImg)await deleteStorageFile(existingImg);}if(isMW){patch.display_author='MeanWhirls';patch.is_mean_whirls=true;}await sbPatch('nap_entries',`id=eq.${entryId}`,patch);await logActivity('edit',entryId,onlyTagsChanged?`Updated hashtags on: "${subject}"`:`Direct edit applied: "${subject}"`);showEditStatus('success',onlyTagsChanged?'✅ Hashtags updated!':'😴 Mean Whirls edit applied!');setTimeout(()=>{closeEditModal();loadEntries();},1500);}
+        else{await sbPost('nap_pending_edits',{entry_id:entryId,subject,text,image_url:imageUrl,submitter,display_author:displayAuthor,hashtags});await logActivity('edit',entryId,`Proposed nap edit: "${subject}"`);showEditStatus('success','✅ Edit submitted for review!');setTimeout(closeEditModal,3000);}
+      }catch(err){showEditStatus('error','Something went wrong: '+err.message);}
+      btn.disabled=false;btn.innerHTML='Submit Edit for Review';
+    });
+
+    // ── Contact Admins modal ──────────────────────────────────
+    const contactModal = document.getElementById('contact-modal');
+    function openContactModal(entryId, entryType) {
+      document.getElementById('contact-entry-id').value = entryId || '';
+      document.getElementById('contact-entry-type').value = entryType || 'nap';
+      document.getElementById('contact-subject').value = '';
+      document.getElementById('contact-message').value = '';
+      document.getElementById('contact-status').style.display = 'none';
+      const _cNameEl = document.getElementById('contact-name');
+      if (_cNameEl) _cNameEl.value = getDisplayName();
+      contactModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeContactModal() { contactModal.classList.remove('open'); document.body.style.overflow = ''; }
+    document.getElementById('contact-modal-close').addEventListener('click', closeContactModal);
+    contactModal.addEventListener('click', e => { if (e.target === contactModal) closeContactModal(); });
+
+    document.getElementById('contact-submit-btn').addEventListener('click', async () => {
+      const subject   = document.getElementById('contact-subject').value.trim();
+      const message   = document.getElementById('contact-message').value.trim();
+      const entryId   = document.getElementById('contact-entry-id').value || null;
+      const entryType = document.getElementById('contact-entry-type').value;
+      if (!subject) { showContactStatus('error', 'Subject is required.'); return; }
+      if (!message) { showContactStatus('error', 'Message is required.'); return; }
+      const btn = document.getElementById('contact-submit-btn');
+      btn.disabled = true; btn.innerHTML = '<span class="spinner-sm"></span> Sending...';
+      try {
+        const ip = await getIpHash();
+        await sbPost('contact_messages', { ip_hash: ip, entry_id: entryId, entry_type: entryType, subject, message });
+        showContactStatus('success', '✅ Message sent! The Mean Whirls crew will review it.');
+        setTimeout(closeContactModal, 2500);
+      } catch(err) { showContactStatus('error', 'Failed to send: ' + err.message); }
+      btn.disabled = false; btn.innerHTML = '✉️ Send Message';
+    });
+    function showContactStatus(type, msg) { const el=document.getElementById('contact-status'); el.className='alert alert-'+type; el.textContent=msg; el.style.display='block'; }
+
+    document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(contactModal.classList.contains('open')){closeContactModal();return;}if(deleteModal.classList.contains('open')){closeDeleteModal();return;}if(editModal.classList.contains('open')){closeEditModal();return;}if(document.getElementById('detail-page').classList.contains('open')){closeDetail();}});
+
+    // Swipe down to dismiss detail sheet
+    (()=>{
+      const sheet=document.getElementById('detail-page');
+      let _sy=0,_dy=0,_dragging=false;
+      sheet.addEventListener('touchstart',e=>{if(sheet.scrollTop>0)return;_sy=e.touches[0].clientY;_dy=0;_dragging=true;},{passive:true});
+      sheet.addEventListener('touchmove',e=>{if(!_dragging)return;_dy=e.touches[0].clientY-_sy;if(_dy>0){sheet.style.transform=`translateY(${_dy}px)`;sheet.style.transition='none';}},{passive:true});
+      sheet.addEventListener('touchend',()=>{if(!_dragging)return;_dragging=false;sheet.style.transition='';sheet.style.transform='';if(_dy>80)closeDetail();});
+    })();
+
+
+    // ── Rickroll ──────────────────────────────────────────────
+
+
+    // ── Auth ─────────────────────────────────────────────
+    // ════════════════════════════════════════════════════════
+// SUPABASE AUTH — shared across all pages
+// Uses Supabase JS v2 CDN
+// ════════════════════════════════════════════════════════
+const LEGACY_USER_ID = '00000000-0000-0000-0000-000000000001';
+
+// Supabase client (v2)
+const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+window._sb = _sb; // expose for getSb()
+
+// ── Auth state ────────────────────────────────────────
+let _currentUser     = null;  // auth.users row
+let _currentProfile  = null;  // user_profiles row
+let _authReady       = false;
+let _authReadyResolve;
+const authReadyPromise = new Promise(r => _authReadyResolve = r);
+
+async function initAuth() {
+  const { data: { session } } = await getSb().auth.getSession();
+  window._sessionToken = session?.access_token || null;
+  if (session?.user) {
+    _currentUser = session.user;
+    _currentProfile = await fetchProfile(session.user.id);
+    await linkIpToAccount();
+  }
+  _authReady = true;
+  _authReadyResolve();
+
+  // Listen for changes
+  getSb().auth.onAuthStateChange(async (event, session) => {
+    window._sessionToken = session?.access_token || null;
+    if (session?.user) {
+      _currentUser = session.user;
+      _currentProfile = await fetchProfile(session.user.id);
+      if (event === 'SIGNED_IN') {
+        await linkIpToAccount();
+        await checkNeedsPassword();
+      }
+    } else {
+      _currentUser = null;
+      _currentProfile = null;
+    }
+    updateAuthUI();
+  });
+  updateAuthUI();
+}
+
+async function fetchProfile(userId) {
+  const { data } = await getSb().from('user_profiles').select('*').eq('id', userId).single();
+  return data;
+}
+
+async function checkNeedsPassword() {
+  // If profile has no password set yet (new admin account), prompt
+  if (_currentProfile && _currentProfile.needs_password) {
+    openSetPasswordModal();
+  }
+}
+
+// ── IP linking ────────────────────────────────────────
+async function linkIpToAccount() {
+  if (!_currentUser) return;
+  try {
+    const ip = await getIpHash();
+    await getSb().from('ip_account_links').upsert({ ip_hash: ip, user_id: _currentUser.id }, { onConflict: 'ip_hash,user_id' });
+    // Update last_seen
+    await getSb().from('user_profiles').update({ last_seen: new Date().toISOString() }).eq('id', _currentUser.id);
+  } catch(e) {}
+}
+
+// ── Convenience getters ───────────────────────────────
+const isLoggedIn  = () => !!_currentUser;
+const isAdmin     = () => _currentProfile?.is_admin === true;
+const isBlocked   = () => _currentProfile?.is_blocked === true;
+const getUserId   = () => _currentUser?.id || null;
+const getDisplayName = () => _currentProfile?.display_name || _currentUser?.email || 'Anonymous';
+
+// ── REST helpers (keep existing pattern) ─────────────
+
+// Auth-aware REST (includes session token when logged in)
+async function authHeaders() {
+  const { data: { session } } = await getSb().auth.getSession();
+  const token = session?.access_token || SUPABASE_ANON;
+  return { 'Content-Type':'application/json', 'apikey': SUPABASE_ANON, 'Authorization': 'Bearer ' + token };
+}
+async function sbAuthPost(t,b) {
+  const h = await authHeaders();
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${t}`,{method:'POST',headers:{...h,'Prefer':'return=representation'},body:JSON.stringify(b)});
+  if(!r.ok)throw new Error(await r.text()); return r.json();
+}
+async function sbAuthPatch(t,p,b) {
+  const h = await authHeaders();
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${t}?${p}`,{method:'PATCH',headers:{...h,'Prefer':'return=representation'},body:JSON.stringify(b)});
+  if(!r.ok)throw new Error(await r.text()); return r.json();
+}
+
+// ── Sign up ───────────────────────────────────────────
+async function signUp(email, password, displayName) {
+  const { data, error } = await getSb().auth.signUp({ email, password });
+  if (error) throw error;
+  if (data.user) {
+    await getSb().from('user_profiles').insert({ id: data.user.id, display_name: displayName, email: email, is_admin: false, vote_weight: 1 });
+    _currentProfile = await fetchProfile(data.user.id);
+  }
+  return data;
+}
+
+// ── Sign in ───────────────────────────────────────────
+async function signIn(email, password) {
+  const { data, error } = await getSb().auth.signInWithPassword({ email, password });
+  if (error) throw error;
+  return data;
+}
+
+// ── Sign out ──────────────────────────────────────────
+async function signOut() {
+  await getSb().auth.signOut();
+  _currentUser = null; _currentProfile = null;
+  updateAuthUI();
+  loadEntries();
+}
+
+// ── Password recovery ─────────────────────────────────
+async function sendPasswordReset(email) {
+  const { error } = await getSb().auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + '/account.html'
+  });
+  if (error) throw error;
+}
+
+// ── Update password ───────────────────────────────────
+async function updatePassword(newPassword) {
+  const { error } = await getSb().auth.updateUser({ password: newPassword });
+  if (error) throw error;
+}
+
+// ── Rickroll check ────────────────────────────────────
+async function maybeRickroll() {
+  try {
+    let alreadyRolled = false;
+    if (isLoggedIn()) {
+      alreadyRolled = _currentProfile?.rickrolled === true;
+      if (!alreadyRolled) {
+        await getSb().from('user_profiles').update({ rickrolled: true }).eq('id', _currentUser.id);
+        _currentProfile = { ..._currentProfile, rickrolled: true };
+      }
+    } else {
+      // Fall back to IP-based for guests
+      const ip = await getIpHash();
+      const rows = await sbGet('ip_profiles', `ip_hash=eq.${ip}&select=rickrolled`);
+      alreadyRolled = rows.length && rows[0].rickrolled === true;
+      if (!alreadyRolled) {
+        if (rows.length) sbPatch('ip_profiles', `ip_hash=eq.${ip}`, { rickrolled: true }).catch(()=>{});
+        else sbPost('ip_profiles', { ip_hash: ip, is_blocked: false, rickrolled: true }).catch(()=>{});
+      }
+    }
+    if (!alreadyRolled) {
+      document.getElementById('rickroll-overlay').style.display = 'flex';
+    }
+  } catch(e) {}
+}
+
+function closeRickroll() {
+  document.getElementById('rickroll-overlay').style.display = 'none';
+  const frame = document.getElementById('rickroll-frame');
+  if (frame) frame.src = '';
+}
+
+// ── Auth modal (shared) ───────────────────────────────
+const AUTH_MODAL_HTML = `
+<div id="auth-modal" class="modal-overlay">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-header">
+      <span class="modal-title" id="auth-modal-title">Sign In</span>
+      <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="auth-gate-msg" style="display:none" class="modal-note"></div>
+
+      <!-- Sign In form -->
+      <div id="auth-signin-form">
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="auth-email" type="email" placeholder="your@email.com" /></div>
+        <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="auth-password" type="password" placeholder="••••••" /></div>
+        <button class="btn btn-primary" id="auth-signin-btn" onclick="handleSignIn()">💗 Sign In</button>
+        <div style="margin-top:0.75rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem">
+          <span style="font-size:0.78rem;color:var(--muted)">No account? <a href="#" onclick="showSignupForm();return false;" style="color:var(--deep-pink)">Create one</a></span>
+          <a href="#" onclick="showForgotForm();return false;" style="font-size:0.78rem;color:var(--muted)">Forgot password?</a>
+        </div>
+        <div id="auth-signin-err" style="display:none" class="alert alert-error"></div>
+      </div>
+
+      <!-- Sign Up form -->
+      <div id="auth-signup-form" style="display:none">
+        <div class="modal-note" style="background:#fff3e0;border-color:#ff9800;color:#6d4c00;margin-bottom:1rem">
+          🙄 Fine. We get it. You hate making accounts. You think we like it?<br/><br/>
+          We won't spam you. We have burns to write, not newsletters. But we know you'll forget your password and then it's our problem, so just give us your email already.<br/><br/>
+          I mean, some of us might have some sweet Toaster Strudel money so are we really gonna sell your data? To who? I'm serious. Tell me who would buy a bunch of whirlyball data. I'm just, um, curious.<br/><br/>
+          <em style="font-size:0.75rem">Also this is almost as secure as Doug's credit card processing system. So there's that.</em>
+        </div>
+        <div class="form-group"><label class="form-label">Display Name *</label><input class="form-input" id="auth-displayname" placeholder="What should we call you?" /></div>
+        <div class="form-group"><label class="form-label">Email *</label><input class="form-input" id="auth-signup-email" type="email" placeholder="your@email.com" /></div>
+        <div class="form-group"><label class="form-label">Password *</label><input class="form-input" id="auth-signup-password" type="password" placeholder="At least 6 characters (we're not picky)" /></div>
+        <div class="form-group"><label class="form-label">Confirm Password *</label><input class="form-input" id="auth-signup-password2" type="password" placeholder="Same thing again" /></div>
+        <button class="btn btn-primary" onclick="handleSignUp()">💗 Create Account</button>
+        <div style="margin-top:0.75rem"><span style="font-size:0.78rem;color:var(--muted)">Already have one? <a href="#" onclick="showSigninForm();return false;" style="color:var(--deep-pink)">Sign in</a></span></div>
+        <div id="auth-signup-err" style="display:none" class="alert alert-error"></div>
+      </div>
+
+      <!-- Forgot password form -->
+      <div id="auth-forgot-form" style="display:none">
+        <div class="modal-note">Enter your email and we'll send you a link to reset your password. It might take a minute. We're busy.</div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="auth-forgot-email" type="email" placeholder="your@email.com" /></div>
+        <button class="btn btn-primary" onclick="handleForgotPassword()">📧 Send Reset Link</button>
+        <div style="margin-top:0.75rem"><a href="#" onclick="showSigninForm();return false;" style="font-size:0.78rem;color:var(--muted)">← Back to sign in</a></div>
+        <div id="auth-forgot-msg" style="display:none" class="alert"></div>
+      </div>
+
+      <!-- Set password form (for admin accounts with null password) -->
+      <div id="auth-setpw-form" style="display:none">
+        <div class="modal-note">Welcome! Please set your password to continue.</div>
+        <div class="form-group"><label class="form-label">New Password *</label><input class="form-input" id="auth-newpw" type="password" placeholder="At least 6 characters" /></div>
+        <div class="form-group"><label class="form-label">Confirm Password *</label><input class="form-input" id="auth-newpw2" type="password" placeholder="Same thing again" /></div>
+        <button class="btn btn-primary" onclick="handleSetPassword()">💾 Set Password</button>
+        <div id="auth-setpw-err" style="display:none" class="alert alert-error"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Set password modal (standalone) -->
+<div id="setpw-modal" class="modal-overlay">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header"><span class="modal-title">🔑 Create Your Password</span></div>
+    <div class="modal-body">
+      <div class="modal-note">Hey! Your account was created by an admin. Please set a password before continuing.</div>
+      <div class="form-group"><label class="form-label">New Password *</label><input class="form-input" id="setpw-pw" type="password" placeholder="At least 6 characters" /></div>
+      <div class="form-group"><label class="form-label">Confirm *</label><input class="form-input" id="setpw-pw2" type="password" /></div>
+      <button class="btn btn-primary" onclick="submitSetPassword()">💾 Set Password</button>
+      <div id="setpw-err" style="display:none" class="alert alert-error"></div>
+    </div>
+  </div>
+</div>`;
+
+function injectAuthModal() {
+  const div = document.createElement('div');
+  div.innerHTML = AUTH_MODAL_HTML;
+  document.body.appendChild(div);
+}
+
+function openAuthModal(gateMsg) {
+  const modal = document.getElementById('auth-modal');
+  if (!modal) return;
+  if (gateMsg) {
+    const el = document.getElementById('auth-gate-msg');
+    el.textContent = gateMsg; el.style.display = 'block';
+  }
+  showSigninForm();
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAuthModal() {
+  const modal = document.getElementById('auth-modal');
+  if (modal) { modal.classList.remove('open'); document.body.style.overflow = ''; }
+}
+function showSigninForm() {
+  document.getElementById('auth-modal-title').textContent = 'Sign In';
+  document.getElementById('auth-signin-form').style.display       = 'block';
+  document.getElementById('auth-signup-form').style.display       = 'none';
+  document.getElementById('auth-forgot-form').style.display       = 'none';
+  document.getElementById('auth-setpw-form').style.display        = 'none';
+}
+function showSignupForm() {
+  document.getElementById('auth-modal-title').textContent = 'Create Account';
+  document.getElementById('auth-signin-form').style.display       = 'none';
+  document.getElementById('auth-signup-form').style.display       = 'block';
+  document.getElementById('auth-forgot-form').style.display       = 'none';
+  document.getElementById('auth-setpw-form').style.display        = 'none';
+}
+function showForgotForm() {
+  document.getElementById('auth-modal-title').textContent = 'Reset Password';
+  document.getElementById('auth-signin-form').style.display       = 'none';
+  document.getElementById('auth-signup-form').style.display       = 'none';
+  document.getElementById('auth-forgot-form').style.display       = 'block';
+  document.getElementById('auth-setpw-form').style.display        = 'none';
+}
+function openSetPasswordModal() {
+  const m = document.getElementById('setpw-modal');
+  if (m) { m.classList.add('open'); document.body.style.overflow = 'hidden'; }
+}
+
+async function handleSignIn() {
+  const email = document.getElementById('auth-email').value.trim();
+  const pw    = document.getElementById('auth-password').value;
+  const btn   = document.getElementById('auth-signin-btn');
+  const err   = document.getElementById('auth-signin-err');
+  if (!email || !pw) { showAuthErr(err,'Email and password required.'); return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner-sm"></span> Signing in...';
+  try {
+    await signIn(email, pw);
+    closeAuthModal();
+    showToast('💗 Welcome back, ' + getDisplayName() + '!');
+    if (typeof onAuthSuccess === 'function') onAuthSuccess();
+  } catch(e) {
+    showAuthErr(err, e.message || '');
+  }
+  btn.disabled = false; btn.innerHTML = '💗 Sign In';
+}
+
+async function handleSignUp() {
+  const name  = document.getElementById('auth-displayname').value.trim();
+  const email = document.getElementById('auth-signup-email').value.trim();
+  const pw    = document.getElementById('auth-signup-password').value;
+  const pw2   = document.getElementById('auth-signup-password2').value;
+  const err   = document.getElementById('auth-signup-err');
+  if (!name)         { showAuthErr(err,'Display name is required.'); return; }
+  if (!email)        { showAuthErr(err,'Email is required.'); return; }
+  if (pw.length < 6) { showAuthErr(err,'Password must be at least 6 characters.'); return; }
+  if (pw !== pw2)    { showAuthErr(err,'Passwords do not match.'); return; }
+  if (name.toLowerCase() === 'meanwhirls') { showAuthErr(err,'Oh honey. You are NOT a real MeanWhirl. You definitely cannot whirl with us now. 💅'); return; }
+  try {
+    const existing = await sbGet('user_profiles', `display_name=ilike.${encodeURIComponent(name)}&select=id&limit=1`);
+    if (existing.length) { showAuthErr(err, 'That display name is already taken. Pick another one.'); return; }
+  } catch(e) { /* non-fatal */ }
+  const btn = document.querySelector('#auth-signup-form .btn.btn-primary');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner-sm"></span> Creating...'; }
+  try {
+    await signUp(email, pw, name);
+    closeAuthModal();
+    showToast('💗 Account created! You\'re in.');
+  } catch(e) { showAuthErr(err, e.message); }
+  if (btn) { btn.disabled = false; btn.innerHTML = '💗 Create Account'; }
+}
+
+function showAuthErr(el, msg, isHtml=false) { if(isHtml){el.innerHTML=msg;}else{el.textContent=msg;} el.style.display='block'; }
+
+
+async function handleForgotPassword() {
+  const email = document.getElementById('auth-forgot-email').value.trim();
+  const msg   = document.getElementById('auth-forgot-msg');
+  if (!email) { msg.className='alert alert-error'; msg.textContent='Email required.'; msg.style.display='block'; return; }
+  try {
+    await sendPasswordReset(email);
+    msg.className='alert alert-success'; msg.textContent='✅ Reset link sent! Check your email.'; msg.style.display='block';
+  } catch(e) { msg.className='alert alert-error'; msg.textContent=e.message; msg.style.display='block'; }
+}
+
+async function handleSetPassword() {
+  const pw  = document.getElementById('auth-newpw').value;
+  const pw2 = document.getElementById('auth-newpw2').value;
+  const err = document.getElementById('auth-setpw-err');
+  if (pw.length < 6) { showAuthErr(err,'At least 6 characters.'); return; }
+  if (pw !== pw2)    { showAuthErr(err,'Passwords do not match.'); return; }
+  try { await updatePassword(pw); closeAuthModal(); showToast('✅ Password set!'); } catch(e) { showAuthErr(err,e.message); }
+}
+
+async function submitSetPassword() {
+  const pw  = document.getElementById('setpw-pw').value;
+  const pw2 = document.getElementById('setpw-pw2').value;
+  const err = document.getElementById('setpw-err');
+  if (pw.length < 6) { err.textContent='At least 6 characters.'; err.style.display='block'; return; }
+  if (pw !== pw2)    { err.textContent='Passwords do not match.'; err.style.display='block'; return; }
+  try {
+    await updatePassword(pw);
+    document.getElementById('setpw-modal').classList.remove('open');
+    document.body.style.overflow = '';
+    showToast('✅ Password set! Welcome aboard. 💗');
+  } catch(e) { err.textContent=e.message; err.style.display='block'; }
+}
+
+
+// ── Auth nav bar widget ───────────────────────────────
+function updateAuthUI() {
+  const widget = document.getElementById('auth-widget');
+  if (!widget) return;
+  if (isLoggedIn()) {
+    const _adminLink = isAdmin()
+      ? `<a href="admin.html" style="box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;height:24px;padding:0 8px;font-family:Raleway,sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.25);border-radius:2px;text-decoration:none;background:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Admin</a>`
+      : '';
+    widget.innerHTML = `<span style="font-size:0.7rem;color:rgba(255,255,255,0.7);letter-spacing:0.05em">👤 ${getDisplayName()}</span>
+      ${_adminLink}
+      <a href="account.html" style="box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;height:24px;padding:0 8px;font-family:Raleway,sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.25);border-radius:2px;text-decoration:none;background:none;transition:color 0.2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">My Account</a>
+      <button onclick="signOut()" style="box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;height:20px;padding:0 7px;font-family:Raleway,sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#0d2137;border:1px solid rgba(255,255,255,0.5);border-radius:2px;background:rgba(255,255,255,0.75);cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='#fff';this.style.color='#0a1a2e'" onmouseout="this.style.background='rgba(255,255,255,0.75)';this.style.color='#0d2137'">Sign Out</button>`;
+  } else {
+    widget.innerHTML = `<button onclick="openAuthModal()" style="background:none;border:1px solid rgba(255,255,255,0.35);border-radius:2px;padding:0.3rem 0.85rem;font-family:Raleway,sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.8);cursor:pointer;transition:all 0.2s" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.8)';this.style.borderColor='rgba(255,255,255,0.35)'">Sign In / Join</button>`;
+  }
+  prefillForms();
+}
+
+function prefillForms() {
+  const name = isLoggedIn() ? getDisplayName() : '';
+  const admin = isAdmin();
+  // Build submit post-as radios
+  const authorOpts = document.getElementById('f-author-options');
+  if (authorOpts) {
+    const radioStyle = 'display:flex;align-items:center;gap:0.5rem;font-size:0.88rem;cursor:pointer;';
+    const options = admin
+      ? [['f-post-mw','MeanWhirls'], ['f-post-name',name], ['f-post-anon','Anonymous']]
+      : [['f-post-name',name], ['f-post-anon','Anonymous']];
+    authorOpts.innerHTML = options.map((o,i) =>
+      `<label style="${radioStyle}"><input type="radio" name="f-post-as" id="${o[0]}" value="${o[1]}" ${i===0?'checked':''} style="accent-color:var(--sky)" /><strong>${o[1]}</strong></label>`
+    ).join('');
+  }
+  // Edit form radios are rebuilt in openEditModal
+  const cname = document.getElementById('contact-name');
+  if (cname) { cname.value = name; }
+}
+
+// ── Gate check — require login for interactive actions ──
+function requireAuth(action) {
+  if (isLoggedIn()) return true;
+  const msgs = {
+    vote:    "Oh, you want to rate this burn? Look at you, having opinions. Sign in first, honey. 💅",
+    comment: "Got something to say? Of course you do. Sign in to leave a comment.",
+    victim:  "Defending yourself? Bold. Sign in first.",
+    defense: "Denying the nap? Brave. Sign in to add your defense.",
+    submit:  "Ready to burn someone? Respect. Sign in first.",
+    edit:    "Editing? Sign in first.",
+  };
+  openAuthModal(msgs[action] || "You need an account for that. We know, we know. 🙄");
+  return false;
+}
+
+
+    function onAuthSuccess() {
+      updateAuthUI();
+      loadEntries();
+      if (currentDetailEntry) openDetail(currentDetailEntry);
+    }
+
+    init();
+    injectAuthModal();
+    initAuth().then(() => { updateAuthUI(); maybeRickroll(); });
+  </script>
+
+  <!-- Rickroll Modal -->
+  <div id="rickroll-overlay" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,0.75);align-items:center;justify-content:center;padding:1.5rem;">
+    <div style="background:#fff;border-radius:4px;max-width:540px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,0.6);overflow:hidden;position:relative;">
+      <button onclick="closeRickroll()" style="position:absolute;top:10px;right:12px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#555;z-index:1;line-height:1;">✕</button>
+      <div style="background:linear-gradient(135deg,#1a0a12,#3d0f25);padding:1.25rem 1.5rem 1rem;border-bottom:2px solid #d4a843;">
+        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:#fff;">Welcome to the Burn Book</div>
+        <div style="font-family:'Raleway',sans-serif;font-size:0.82rem;color:rgba(255,255,255,0.6);margin-top:0.35rem;font-style:italic;">this is how we roll</div>
+      </div>
+      <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;">
+        <iframe id="rickroll-frame"
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&controls=1&rel=0"
+          style="position:absolute;inset:0;width:100%;height:100%;border:none;"
+          allow="autoplay; encrypted-media"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div style="padding:1rem 1.5rem;font-family:'Raleway',sans-serif;font-size:0.8rem;color:#8c6678;font-style:italic;text-align:center;background:#fff8f0;">
+        Four for you, Rick Astley. You go, Rick Astley. None for everyone else.
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
